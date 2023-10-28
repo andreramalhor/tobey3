@@ -400,17 +400,7 @@ class Pessoa extends Authenticatable
     return null;
   }
 
-  public function getFotoTabelaAttribute()
-  {
-    if(file_exists(public_path('/img/atendimentos/pessoas/'.$this->id.'.png')))
-    {
-      return '<img src="'.asset('/img/atendimentos/pessoas/'.$this->id.'.png').'" class="img-circle" alt="'.$this->apelido.'" width="25px">';
-    }
-    else
-    {
-      return '<img src="'.asset('/img/atendimentos/pessoas/0.png').'" class="img-circle" alt="'.$this->apelido.'" width="25px">';
-    }
-  }
+
 
   public function getEnderecoPrincipalAttribute()
   {
@@ -439,18 +429,13 @@ class Pessoa extends Authenticatable
     }
   }
 
-  public function getSaldoContaAttribute()
-  {
+//   public function getSaldoContaAttribute()
+//   {
 
-    return $this->opmnhtrvanmesd->where('status', '=', 'Em Aberto')->sum('valor');
-    // return $this->AtdPessoasContatos->where('principal', 1)->first()['ddd'] . $this->AtdPessoasContatos->where('principal', 1)->first()['numero'];
-  }
+//     return $this->opmnhtrvanmesd->where('status', '=', 'Em Aberto')->sum('valor');
+//     // return $this->AtdPessoasContatos->where('principal', 1)->first()['ddd'] . $this->AtdPessoasContatos->where('principal', 1)->first()['numero'];
+//   }
   // FUNÇÕES          ===========================================================================================
-  public function adminlte_image()
-  {
-    return asset('/img/atendimentos/pessoas/'.$this->id.'.png');
-  // return 'https://picsum.photos/300/300';
-  }
 
   public function adminlte_desc()
   {
@@ -650,25 +635,19 @@ class Pessoa extends Authenticatable
     return '<a class="link-dark text-decoration-underline" onclick="pessoas_mostrar('.$this->id.')" style="cursor: pointer;">'.$this->id.'</a>';
   }
 
-  function getsrcFotoAttribute()
-  {
-    return url('stg/img/empresa/logo.png');
-    return url('storage/users/andre-ramalho-celestino-rocha.png');
-    $oldUrl = env("APP_URL");
-
-    $newUrl = str_replace("/app", "/www", $oldUrl);
-
-    $headers = get_headers($newUrl.'/img/atendimentos/pessoas/'.$this->id.'.png');
-
-    if ( $headers && strpos($headers[0], "200 OK") !== false )
+    function getsrcFotoAttribute()
     {
-      return $newUrl.'/img/atendimentos/pessoas/'.$this->id.'.png';
+        $filePath = public_path("stg/img/user/{$this->id}.png");
+
+        if (file_exists($filePath))
+        {
+            return asset("stg/img/user/{$this->id}.png");
+        }
+        else
+        {
+            return asset('stg/img/empresa/logo.png');
+        }
     }
-    else
-    {
-      return $newUrl.'/img/atendimentos/pessoas/0.png';
-    }
-  }
 
   public function scopeCLientes($query)
   {
@@ -733,4 +712,20 @@ class Pessoa extends Authenticatable
       $query->where('id_consultor', '=', \Auth::User()->id);
     }
   }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($pessoa)
+        {
+            $filePath = public_path("stg/img/user/{$pessoa->id}.png");
+
+            if (file_exists($filePath))
+            {
+                unlink($filePath);
+            }
+        });
+    }
+
 }

@@ -150,10 +150,6 @@ class LeadConversa extends Model
     return $this->hasMany(ColabServ::class, 'id_profexec', 'id')->withPivot(['executa', 'prc_comissao']);
   }
 
-  public function opmnhtrvanmesd()
-  {
-    return $this->hasMany(ContaInterna::class, 'id_pessoa', 'id');
-  }
 
   public static function last_atendimento($id)
   {

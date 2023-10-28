@@ -444,12 +444,6 @@ class Lead extends Model
         }
     }
 
-    public function getSaldoContaAttribute()
-    {
-        return $this->opmnhtrvanmesd->where('status', '=', 'Em Aberto')->sum('valor');
-        // return $this->AtdPessoasContatos->where('principal', 1)->first()['ddd'] . $this->AtdPessoasContatos->where('principal', 1)->first()['numero'];
-    }
-
     public function getOrigemAttribute()
     {
         switch ($this->id_origem)
