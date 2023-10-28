@@ -5,7 +5,7 @@ namespace App\Models\Ferramenta;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use App\Models\User as Usuario;
+use App\Models\Atendimento\Pessoa;
 
 class Tarefa extends Model
 {
@@ -30,7 +30,7 @@ class Tarefa extends Model
     // =====================================================================================================================================
     public function oifuwernduaosdu()
     {
-        return $this->belongsTo(Usuario::class, 'id_criador', 'id');
+        return $this->belongsTo(Pessoa::class, 'id_criador', 'id');
     }
 
     // =====================================================================================================================================

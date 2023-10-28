@@ -30,7 +30,7 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/css/adminlte.min.css" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"  rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,300,0,-25"  rel="stylesheet" />
-
+        <link href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" rel="stylesheet" />
         <!-- Styles -->
         @stack('css')
         @livewireStyles
@@ -102,6 +102,7 @@
         <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
         <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 
         <script>
             $(document).ready(function()

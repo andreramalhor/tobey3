@@ -21,7 +21,8 @@ class Categoria extends Component
     public $tipo;
     public $descricao;
 
-    public $isOpen = 0;
+    public $modalType;
+    public $categoria;
     public $categoriaId;
 
     protected $listeners = ['chamarMetodo' => 'remove'];
@@ -29,26 +30,27 @@ class Categoria extends Component
     public function create()
     {
         $this->reset();
-        $this->openModal();
+        $this->openModal('store');
     }
 
-    public function openModal()
+    public function openModal($type)
     {
-        $this->isOpen = true;
+        $this->modalType = $type;
         $this->resetValidation();
     }
 
     public function closeModal()
     {
-        $this->isOpen = false;
+        $this->modalType = '';
+        $this->categoria = '';
     }
 
     public function store()
     {
         $this->validate();
         DBCategoria::create([
-            'nome' => $this->nome,
-            'tipo' => $this->tipo,
+            'nome'      => $this->nome,
+            'tipo'      => $this->tipo,
             'descricao' => $this->descricao,
         ]);
 
@@ -63,15 +65,22 @@ class Categoria extends Component
         $this->closeModal();
     }
 
+    public function show($id)
+    {
+        $this->categoria = DBCategoria::findOrFail($id);
+
+        $this->openModal('show');
+    }
+
     public function edit($id)
     {
         $categoria = DBCategoria::findOrFail($id);
         $this->categoriaId = $id;
-        $this->nome = $categoria->nome;
-        $this->tipo = $categoria->tipo;
-        $this->descricao = $categoria->descricao;
+        $this->nome        = $categoria->nome;
+        $this->tipo        = $categoria->tipo;
+        $this->descricao   = $categoria->descricao;
 
-        $this->openModal();
+        $this->openModal('store');
     }
 
     public function update()

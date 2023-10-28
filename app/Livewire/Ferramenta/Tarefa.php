@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Livewire\Ferramenta\Tarefa;
+namespace App\Livewire\Ferramenta;
 
 use Livewire\Component;
 use Livewire\Attributes\Rule;
 use App\Models\Ferramenta\Tarefa as DBTarefa;
 
-class Index extends Component
+class Tarefa extends Component
 {
     public $id_criador;
 
@@ -54,8 +54,9 @@ class Index extends Component
             'arquivado'      => $this->arquivado,
         ]);
 
-        $this->dispatch('updated', [
-            'title'     => 'Tarefa criada com sucesso!',
+        $this->dispatch('swal:alert', [
+            'title'     => 'Criado!',
+            'text'      => 'Tarefa criada com sucesso!',
             'icon'      => 'success',
             'iconColor' => 'green',
         ]);
@@ -94,8 +95,9 @@ class Index extends Component
                 'arquivado'      => $this->arquivado,
             ]);
 
-            $this->dispatch('updated', [
-                'title'     => 'Tarefa atualizado com sucesso!',
+            $this->dispatch('swal:alert', [
+                'title'     => 'Atualizado!',
+                'text'      => 'Tarefa atualizado com sucesso!',
                 'icon'      => 'success',
                 'iconColor' => 'green',
             ]);
@@ -107,14 +109,15 @@ class Index extends Component
 
     public function delete($id)
     {
-        $this->dispatch('updated', [
-            'title'        => 'Tarefa deletada com sucesso!',
-            'icon'         => 'success',
-            'iconColor'    => 'green',
-            'confirmation' => true,
-        ]);
+        $tarefa = DBTarefa::find($id)->delete();
 
-        DBTarefa::find($id)->delete();
+        $this->dispatch('swal:confirm', [
+            'title'        => $tarefa->titulo,
+            'text'         => 'Tem certeza que quer deletar a tarefa?',
+            'icon'         => 'warning',
+            'iconColor'    => 'orange',
+            'idEvent'      => $tarefa->id,
+        ]);
 
         $this->resetExcept('tarefaId');
     }
@@ -136,12 +139,13 @@ class Index extends Component
                 break;
         }
 
-        $this->dispatch('updated', [
-            'title'        => 'Status tarefa: '.$tarefa->status.' !',
-            'icon'         => 'success',
-            'iconColor'    => 'green',
-            'confirmation' => true,
+        $this->dispatch('swal:alert', [
+            'title'     => 'Atualizado!',
+            'text'      => 'Status tarefa: '.$tarefa->status.' !',
+            'icon'      => 'success',
+            'iconColor' => 'green',
         ]);
+
     }
 
     public function render()

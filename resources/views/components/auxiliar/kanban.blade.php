@@ -15,7 +15,7 @@
             <div class="card card-secondary">
                 <div class="card-header">
                     <h3 class="card-title d-inline-flex">
-                        <img class="img-circle img-size-32 mr-2" src="{{ $colaborador->eoprtjweornweuq->profile_photo_url ?? null }}" alt="{{ $colaborador->apelido }}" />{{ $colaborador->apelido }}
+                        <img class="img-circle img-size-32 mr-2" src="{{ $colaborador->src_foto ?? $colaborador->eoprtjweornweuq->profile_photo_url }}" alt="{{ $colaborador->apelido }}" />{{ $colaborador->apelido }}
                     </h3>
                 </div>
                 <div class="card-body p-0">
@@ -26,7 +26,7 @@
                                 <strong>{{ $tarefa->titulo }}</strong><br><small>{{ $tarefa->descricao }}</small>
                             </td>
                             <td class="text-right py-1 pr-0" style="width: 20%;">
-                                <img class="img-circle img-size-32 mr-2" src="{{ $tarefa->oifuwernduaosdu->profile_photo_url ?? null }}" alt="{{ $tarefa->oifuwernduaosdu->name }}" /></small>
+                                <img class="img-circle img-size-32 mr-2" src="{{ $tarefa->oifuwernduaosdu->src_foto ?? $tarefa->oifuwernduaosdu->profile_photo_url }}" alt="{{ $tarefa->oifuwernduaosdu->name }}" /></small>
                             </td>
                         </tr>
                         @empty

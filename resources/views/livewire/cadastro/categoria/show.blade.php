@@ -1,14 +1,15 @@
-@if ( $modalType == 'store' )
+@if ( $modalType == 'show' )
+
 <div class="modal show" tabindex="-1" role="dialog" style="display: block;" >
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
-                    {{$categoriaId ? 'Editar categoria' : 'Criar nova categoria' }}
+                    Categoria: {{ $categoriaId ? 'Editar categoria' : 'Criar nova categoria' }}
                 </h5>
                 <x-icon.close />
             </div>
-            <div class="modal-body">
+            <div class="modal-body bg-red">
                 <form wire:submit.prevent="{{ $categoriaId ? 'update' : 'store' }}">
                     <div class="form-group">
                         <label for="nome">Nome</label>

@@ -5,7 +5,7 @@
 
     <div class="row">
         <div class="col-3">
-            <livewire:Ferramenta.Tarefa.Index />
+            <livewire:Ferramenta.Tarefa />
         </div>
     </div>
 
