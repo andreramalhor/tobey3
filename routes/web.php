@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Atendimento\Pessoa;
 use App\Livewire\Cadastro\Categoria;
 use App\Livewire\Comercial\Lead;
-use App\Livewire\Comercial\Lead\{Index, Criar, Empresa, Atender, Dashboard};
+use App\Livewire\Comercial\Lead\{Index, Criar, Empresa, Atender, Dashboard, Comissao};
 use App\Livewire\Financeiro\Lancamento\{Lancamentodashboard, Lancamentocriar, Lancamentolistar};
 use App\Livewire\Ferramenta\Kanban\{Kanbancriar, Kanbanlistar};
 use App\Livewire\Ferramenta\Todo\{Todoarchive, Todoedit, Todoshow, Todolist};
@@ -49,6 +49,7 @@ Route::group(['middleware' => 'auth', 'prefix' => '/cadastro'], function()
 Route::group(['middleware' => 'auth', 'prefix' => '/comercial'], function()
 {
     Route::get('/leads',                Lead::class)                ->name('com.leads');
+    Route::get('/comissoes',            Comissao::class)            ->name('com.leads.comissoes');
     // Route::get('/dashoboard',           Dashboard::class)           ->name('com.leads.dashboard');
     // Route::get('/leads/atender',        Empresa::class)             ->name('com.leads.empresa');
     // Route::get('/leads/atender/{id}',   Atender::class)             ->name('com.leads.atender');

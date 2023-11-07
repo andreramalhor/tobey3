@@ -19,6 +19,7 @@
 
         <x-adminlte.layouts.navbar-links icon="<i class='fa-solid fa-solid fa-handshake'></i>" tooltip="Comercial">
             <li><a class="dropdown-item" href="{{ route('com.leads.dashboard') }}">Dashboard</a></li>
+            <li><a class="dropdown-item" href="{{ route('com.leads.comissoes') }}">Comissões</a></li>
             {{-- <li><a class="dropdown-item" href="{{ route('com.leads.criar') }}">Adicionar Lead</a></li> --}}
             {{-- <li><a class="dropdown-item" href="{{ route('com.leads.empresa') }}">Atendimento</a></li> --}}
             <li><a class="dropdown-item" href="{{ route('com.leads') }}">Visualizar Leads</a></li>
