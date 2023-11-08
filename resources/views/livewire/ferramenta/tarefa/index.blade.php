@@ -7,7 +7,7 @@
                 </h3>
             </div>
             <div class="card-body p-0">
-                <ul class="todo-list ui-sortable" data-widget="todo-list">
+                <ul class="todo-list ui-sortable" data-bs-widget="todo-list">
                     @forelse ($tarefas as $ciclo)
                     {{-- <x-livewire.ferramenta.tarefa.index item="{{ $ciclo }}" wire:key="{{ $ciclo->id }}"/> --}}
                     <li wire:key="{{ $ciclo->id }}" class="{{ $ciclo->status == 'Concluído' ? 'done' : '' }}">

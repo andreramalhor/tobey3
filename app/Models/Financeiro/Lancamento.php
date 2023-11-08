@@ -46,10 +46,19 @@ class Lancamento extends Model
   ];
 
 
+  // AUXILIARES              ===========================================================================================
+  public static function procurar($pesquisa)
+  {
+    return empty($pesquisa)
+    ? static::query()
+    : static::query()->where('informacao', 'LIKE', '%'.$pesquisa.'%')
+                     ->orWhere('id', 'LIKE', '%'.$pesquisa.'%');
+  }
+
 // ================================================================================================================= RELACIONAMENTOS
   public function yaapdycfbplzkeg()
   {
-    return $this->belongsTo(Banco::class, 'id_banco', 'id');    
+    return $this->belongsTo(Banco::class, 'id_banco', 'id');
   }
 
   public function qexgzmnndqxmyks()
@@ -64,7 +73,7 @@ class Lancamento extends Model
 
   public function PDVCaixas()
   {
-    return $this->belongsTo(Caixa::class, 'id_caixa', 'id');    
+    return $this->belongsTo(Caixa::class, 'id_caixa', 'id');
   }
 
   public function AtdUsuariosLancador()
@@ -84,14 +93,14 @@ class Lancamento extends Model
 
   public function GerPlanoContas()
   {
-    return $this->belongsTo(PlanoConta::class, 'conta', 'id');    
+    return $this->belongsTo(PlanoConta::class, 'conta', 'id');
   }
 // ================================================================================================================= MÉTODOS
 
   // ================================================================================================================= ATRIBUTOS (Nomes)
   public function getSaldoFinalAttribute()
   {
-    $saldo_final = 
+    $saldo_final =
                  - $this->where('tipo', 'S')->sum('vlr_final')
                  + $this->where('tipo', 'E')->sum('vlr_final')
                  + $this->where('tipo', 'T')->sum('vlr_final');

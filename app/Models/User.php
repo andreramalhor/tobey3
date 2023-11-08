@@ -30,6 +30,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'id',
         'name',
         'email',
         'password',
@@ -72,13 +73,13 @@ class User extends Authenticatable
         // dd('isAdminSystem', $admin);
         return $this->kjahdkwkbewtoip->contains('nome', $admin);
     }
-    
+
     // O Gate verifica permissão por permissão na hora de saber se possui o daquele item que ele pretende entrar
     public function temPermissao()
     {
         return $this->kjahdkwkbewtoip->map->yxwbgtooplyjjaz->flatten()->pluck('nome');
     }
-    
+
     public function pacoteFuncao($funcoes)
     {
         // dd('pacoteFuncao', $funcoes);
@@ -88,14 +89,14 @@ class User extends Authenticatable
         }
         return $this->kjahdkwkbewtoip->contains('nome', $funcoes);
     }
-    
-    
+
+
     //|||||||||||||||||||||||||||||||||||||||||||||||||   RELACIONAMENTOS   |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function kjahdkwkbewtoip()
     {
         return $this->belongsToMany(Funcao::class, 'acl_funcoes_pessoas', 'id_pessoa', 'id_funcao');
     }
-    
+
     //|||||||||||||||||||||||||||||||||||||||||||||||||   MUTATOS   |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function getPhotoAttribute()
     {
@@ -108,5 +109,16 @@ class User extends Authenticatable
             return asset('imgs/no-image.png');
         }
     }
+
+    //|||||||||||||||||||||||||||||||||||||||||||||||||   AUXILIARES   ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+    public static function procurar($pesquisa)
+    {
+        return empty($pesquisa)
+                        ? static::query()
+                        : static::query()->where('name', 'LIKE', '%'.$pesquisa.'%')
+                                         ->orWhere('email', 'LIKE', '%'.$pesquisa.'%');
+    }
+
 
 }

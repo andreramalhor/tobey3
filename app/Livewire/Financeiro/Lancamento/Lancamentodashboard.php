@@ -14,25 +14,25 @@ class Lancamentodashboard extends Component
     public $periodo;
     public $inicio;
     public $final;
-    
+
     public $clientes_callcenter = [];
     public $clientes_marketing = [];
     public $clientes_converta = [];
     public $pessoal = [];
-    
+
 
     public function decrement()
     {
-        $this->inicio = \Carbon\Carbon::parse($this->inicio)->startOfMonth()->subMonths('1')->format('Y-m-d');
-        $this->final  = \Carbon\Carbon::parse($this->inicio)->endOfMonth()->format('Y-m-d');
+        $this->inicio  = \Carbon\Carbon::parse($this->inicio)->startOfMonth()->subMonths('1')->format('Y-m-d');
+        $this->final   = \Carbon\Carbon::parse($this->inicio)->endOfMonth()->format('Y-m-d');
         $this->periodo = \Carbon\Carbon::parse($this->inicio)->format('M/Y');
     }
-    
+
     public function increment()
     {
-        $this->inicio = \Carbon\Carbon::parse($this->inicio)->startOfMonth()->addMonths('1')->format('Y-m-d');
-        $this->final  = \Carbon\Carbon::parse($this->inicio)->endOfMonth()->format('Y-m-d');
-        $this->periodo = \Carbon\Carbon::parse($this->inicio)->format('mmm/Y');
+        $this->inicio  = \Carbon\Carbon::parse($this->inicio)->startOfMonth()->addMonths('1')->format('Y-m-d');
+        $this->final   = \Carbon\Carbon::parse($this->inicio)->endOfMonth()->format('Y-m-d');
+        $this->periodo = \Carbon\Carbon::parse($this->inicio)->format('M/Y');
     }
 
 
@@ -41,24 +41,24 @@ class Lancamentodashboard extends Component
         $lancamentos = Lancamento::
                             where('id_empresa', '=', 1)->
                             whereBetween('dt_competencia', [$this->inicio, $this->final]);
-                            
+
         return $lancamentos;
     }
 
 
     public function render()
-    {    
-        $this->inicio = \Carbon\Carbon::parse($this->inicio)->startOfMonth()->format('Y-m-d') ?? \Carbon\Carbon::now()->startOfMonth()->format('Y-m-d');
+    {
+        $this->inicio = \Carbon\Carbon::parse($this->inicio)->startOfMonth()->subMonths('1')->format('Y-m-d') ?? \Carbon\Carbon::now()->startOfMonth()->format('Y-m-d');
         $this->final  = \Carbon\Carbon::parse($this->final)->endOfMonth()->format('Y-m-d') ?? \Carbon\Carbon::now()->endOfMonth()->format('Y-m-d');
-       
+
         $this->clientes_marketing  = $this->clientes_marketing();
         $this->clientes_callcenter = $this->clientes_callcenter();
         $this->clientes_converta   = $this->clientes_converta();
         $this->pessoal             = $this->pessoal();
 
-        return view('livewire/financeiro/lancamento/dashboard')->layout('layouts/app');
+        return view('livewire/financeiro2/lancamento2/dashboard')->layout('layouts/app');
     }
-    
+
     public function clientes_callcenter()
     {
         return $this->
@@ -85,12 +85,12 @@ class Lancamentodashboard extends Component
                     where('id_conta', '=', '169')->
                     get();
     }
-    
+
     public function pessoal()
     {
         return $this->
                     listar()->
                     wherein('id_conta', [167, 170])->
                     get();
-    }    
+    }
 }

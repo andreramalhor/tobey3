@@ -20,14 +20,14 @@ class ChartAnual extends Component
     }
     public function render()
     {
-        return view('livewire/financeiro/lancamento/chart');
+        return view('livewire/financeiro2/lancamento2/chart');
     }
 
     public function mount(Lancamento $lancamentos)
     {
         $inicio = \Carbon\Carbon::now()->startOfYear();
         $final  = \Carbon\Carbon::now()->endOfYear();
-        
+
         $despesas = $lancamentos->
             whereBetween('dt_competencia', [$inicio, $final])->
             where('tipo', '=', 'D')->
@@ -46,13 +46,13 @@ class ChartAnual extends Component
 
         foreach ($despesas as $despesa)
         {
-            $indexDespesas = $despesa->mes - 1;            
+            $indexDespesas = $despesa->mes - 1;
             $this->despesa[$indexDespesas] = $despesa->total;
         }
 
         foreach ($receitas as $receita)
         {
-            $indexReceitas = $receita->mes - 1;            
+            $indexReceitas = $receita->mes - 1;
             $this->receita[$indexReceitas] = $receita->total;
         }
 

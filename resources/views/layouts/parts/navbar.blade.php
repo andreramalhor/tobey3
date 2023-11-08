@@ -19,6 +19,7 @@
 
         <x-adminlte.layouts.navbar-links icon="<i class='fa-solid fa-solid fa-handshake'></i>" tooltip="Comercial">
             <li><a class="dropdown-item" href="{{ route('com.leads.dashboard') }}">Dashboard</a></li>
+            <li><a class="dropdown-item" href="{{ route('com.leads.comissoes') }}">Comissões</a></li>
             {{-- <li><a class="dropdown-item" href="{{ route('com.leads.criar') }}">Adicionar Lead</a></li> --}}
             {{-- <li><a class="dropdown-item" href="{{ route('com.leads.empresa') }}">Atendimento</a></li> --}}
             <li><a class="dropdown-item" href="{{ route('com.leads') }}">Visualizar Leads</a></li>
@@ -29,7 +30,7 @@
         <x-adminlte.layouts.navbar-links icon="<i class='fa-solid fa-solid fa-dollar'></i>" tooltip="Financeiro">
             <li><a class="dropdown-item" href="{{ route('fin.lancamentos.dashboard') }}">Dashboard</a></li>
             <li><a class="dropdown-item" href="{{ route('fin.lancamentos.criar') }}">Lançamentos</a></li>
-            <li><a class="dropdown-item" href="{{ route('fin.lancamentos.listar') }}">Extrato de movimentações</a></li>
+            <li><a class="dropdown-item" href="{{ route('fin.lancamentos') }}">Extrato de movimentações</a></li>
         </x-adminlte.layouts.navbar-links>
         @endcan
 
@@ -37,6 +38,14 @@
         <!-- can('Lançamentos.Visualizar') -->
         <x-adminlte.layouts.navbar-links icon="<i class='fa-solid fa-solid fa-tools'></i>" tooltip="Ferramentas">
             <li><a class="dropdown-item" href="{{ route('fer.kanban.listar') }}">KanBan</a></li>
+            {{-- <li><a class="dropdown-item" href="{{ route('fer.tarefas.listar') }}">Tarefas</a></li> --}}
+        </x-adminlte.layouts.navbar-links>
+        @endcan
+
+        @can('Sócios')
+        <!-- can('Lançamentos.Visualizar') -->
+        <x-adminlte.layouts.navbar-links icon="<i class='fa-solid fa-solid fa-gear'></i>" tooltip="Configurações">
+            <li><a class="dropdown-item" href="{{ route('cfg.usuarios') }}">Usuários do sistema</a></li>
             {{-- <li><a class="dropdown-item" href="{{ route('fer.tarefas.listar') }}">Tarefas</a></li> --}}
         </x-adminlte.layouts.navbar-links>
         @endcan
