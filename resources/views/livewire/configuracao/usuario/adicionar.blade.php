@@ -9,7 +9,7 @@
                     </h5>
                     <x-icon.close />
                 </div>
-                <div class="modal-body p-2">
+                <div class="modal-body p-2" style="max-height: 70vh; overflow-y: auto;">
                     <ul class="todo-list">
                         <x-atendimento.pessoa.Pessoasdiffrelation-select col="12" relacionamento="eoprtjweornweuq" name="id_pessoa" selecionado="{{ $id_pessoa ?? null }}" label="Pessoa"  wire:change="preencher_email" />
 
@@ -31,7 +31,9 @@
                         </li>
                         <br>
                     </ul>
+                </div>
 
+                <div class="modal-footer p-0">
                     <button type="submit" class="btn btn-primary mt-4">
                         {{ $usuarioId ? 'Atualizar' : 'Cadastrar' }}
                     </button>

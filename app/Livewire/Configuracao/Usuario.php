@@ -22,7 +22,7 @@ class Usuario extends Component
     #[Rule('required')]
     public $id_pessoa;
 
-    #[Rule('required')]
+    #[Rule('required|email|unique:users,email,IGNORE_ID')]
     public $email;
     public $password = 123456;
 
@@ -84,37 +84,28 @@ class Usuario extends Component
         $this->closeModal();
     }
 
-    public function show($id)
+    public function edit($id)
     {
+        $this->usuarioId = $id;
         $this->usuario   = DBUsuario::findOrFail($id);
         $this->id_pessoa = $this->usuario->name;
         $this->email     = $this->usuario->email;
         $this->password  = '*******';
         $this->funcoes   = $this->usuario->kjahdkwkbewtoip->pluck('id');
 
-        $this->openModal('show');
-    }
-
-    public function edit($id)
-    {
-        $usuario = DBUsuario::findOrFail($id);
-        $this->usuarioId = $id;
-        $this->nome      = $usuario->nome;
-        $this->tipo      = $usuario->tipo;
-        $this->descricao = $usuario->descricao;
-
-        $this->openModal('store');
+        $this->openModal('edit');
     }
 
     public function update()
     {
         if ($this->usuarioId)
         {
-            $usuario = DBUsuario::findOrFail($this->usuarioId);
-            $usuario->update([
-                'nome' => $this->nome,
-                'tipo' => $this->tipo,
-                'descricao' => $this->descricao,
+            $pessoa = DBPessoa::findOrFail($this->usuarioId);
+            $pessoa->kjahdkwkbewtoip()->sync($this->funcoes);
+
+            $pessoa->update([
+                'name'     => $pessoa->apelido,
+                'email'    => $this->email,
             ]);
 
             $this->dispatch('swal:alert', [
@@ -134,8 +125,8 @@ class Usuario extends Component
         $usuario = DBUsuario::find($id);
 
         $this->dispatch('swal:confirm', [
-            'title'        => $usuario->nome,
-            'text'         => 'Tem certeza que quer deletar o usuário?',
+            'title'        => $usuario->name,
+            'text'         => 'Tem certeza que quer remover o usuário?',
             'icon'         => 'warning',
             'iconColor'    => 'orange',
             'idEvent'      => $usuario->id,
@@ -150,7 +141,7 @@ class Usuario extends Component
 
         $this->dispatch('swal:alert', [
             'title'         => 'Deletado!',
-            'text'          => 'Usuário deletado com sucesso!',
+            'text'          => 'Usuário removido com sucesso!',
             'icon'          => 'success',
             'iconColor'     => 'green',
         ]);
@@ -160,7 +151,6 @@ class Usuario extends Component
 
     public function listar()
     {
-
         $usuarios = DBUsuario::
                             procurar($this->pesquisar);
 

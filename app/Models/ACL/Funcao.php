@@ -11,7 +11,7 @@ use App\Models\pivots\FuncoesPessoas;
 
 class Funcao extends Model
 {
-  public $timestamps = false;  
+  public $timestamps = false;
 
   protected $primaryKey = 'id';
   protected $table      = 'acl_funcoes';
@@ -47,11 +47,11 @@ public function MMBBEYSRJM()
 public function jrlcgwekejwbwel()
 {
   return $this->hasManyThrough(
-    User::class, 
-    FuncaoPessoa::class, 
-    'id_funcao', 
-    'id', 
-    'id', 
+    User::class,
+    FuncaoPessoa::class,
+    'id_funcao',
+    'id',
+    'id',
     'id_pessoa');
 }
 
@@ -64,7 +64,7 @@ public function jrlcgwekejwbwel()
   // {
   //   return $this->hasOne(ServicoProduto::class, 'id', 'id_servprod');
   // }
-  
+
   public function getColorAttribute()
   {
     switch ($this->nome)
@@ -90,13 +90,13 @@ public function jrlcgwekejwbwel()
       case 'Cliente CallCenter':
         return 'purple';
       case 'Vendedor':
-        return 'fuchsia';
-      case 'Administrador':
+        return 'orange';
+      case 'Auxiliar Administrativo':
         return 'pink';
-      case 'Administrador':
+      case 'Secretária':
         return 'maroon';
       case 'Administrador':
-        return 'orange';
+        return 'fuchsia';
       case 'Administrador':
         return 'lime';
       case 'Administrador':

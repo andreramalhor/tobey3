@@ -1,12 +1,10 @@
-@if ( $modalType == 'show' )
+@if ( $modalType == 'edit' )
 <div class="modal show" tabindex="-1" role="dialog" style="display: block;" >
     <div class="modal-dialog">
         <div class="modal-content">
-            <form wire:submit.prevent="{{ $usuarioId ? 'update' : 'store' }}">
+            <form wire:submit.prevent='update'>
                 <div class="modal-header">
-                    <h5 class="modal-title">
-                        {{$usuarioId ? 'Editar usuario' : 'Adicionar usuário' }}
-                    </h5>
+                    <h5 class="modal-title">Editar usuário</h5>
                     <x-icon.close />
                 </div>
                 <div class="modal-body p-2">
@@ -16,7 +14,7 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="text" class="form-control form-control-sm @error('email') is-invalid @enderror" wire:model="email" wire:tap="preencher_email">
+                                <input type="text" class="form-control form-control-sm @error('email') is-invalid @enderror" wire:model="email" wire:tap="preencher_email" disabled="disabled">
                                 @error('email') <div class="invalid-feedback"> {{ $message ?? 'teste de mensagem de erro'}} </div> @enderror
                             </div>
                         </div>
@@ -32,9 +30,7 @@
                         <br>
                     </ul>
 
-                    <button type="submit" class="btn btn-primary mt-4">
-                        {{ $usuarioId ? 'Atualizar' : 'Cadastrar' }}
-                    </button>
+                    <button type="submit" class="btn btn-primary mt-4">Atualizar</button>
                     <button type="button" wire:click="closeModal" class="btn btn-secondary mt-4">Cancelar</button>
                 </div>
             </form>

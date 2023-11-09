@@ -42,8 +42,6 @@
                                 @endforeach
                             </td>
                             <td class="p-1 text-right">
-                                <x-icon.view click="{{ $ciclo->id }}" />
-                                &nbsp;
                                 <x-icon.edit click="{{ $ciclo->id }}" />
                                 &nbsp;
                                 <x-icon.delete click="{{ $ciclo->id }}" />
@@ -65,5 +63,5 @@
         </div>
     </div>
     @include('livewire.configuracao.usuario.adicionar')
-    @include('livewire.configuracao.usuario.show')
+    @include('livewire.configuracao.usuario.edit')
 </div>
