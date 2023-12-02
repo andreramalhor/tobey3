@@ -14,6 +14,7 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Models\ACL\Funcao;
 use App\Models\ACL\FuncaoPessoa;
 use App\Models\ACL\Permissao;
+use App\Models\Atendimento\Pessoa;
 
 class User extends Authenticatable
 {
@@ -95,6 +96,11 @@ class User extends Authenticatable
     public function kjahdkwkbewtoip()
     {
         return $this->belongsToMany(Funcao::class, 'acl_funcoes_pessoas', 'id_pessoa', 'id_funcao');
+    }
+
+    public function sdfjsefbdjfhufe()
+    {
+        return $this->belongsTo(Pessoa::class, 'id', 'id');
     }
 
     //|||||||||||||||||||||||||||||||||||||||||||||||||   MUTATOS   |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||

@@ -27,7 +27,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="info-box mb-3">
-                                        <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-money-bill"></i></span>
+                                        <span class="info-box-icon bg-secondary elevation-1"><i class="fas fa-money-bill"></i></span>
                                         <div class="info-box-content">
                                             <span class="info-box-text">Vendas no mês</span>
                                             <span class="info-box-number">{{ $total_vendas_mes }}</span>

@@ -73,8 +73,8 @@
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-secondary" wire:click="closeModal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">{{ $tarefaId ? 'Atualizar' : 'Cadastrar' }}</button>
+                    <button type="button" class="btn btn-default" wire:click="closeModal">Cancelar</button>
+                    <button type="submit" class="btn btn-secondary">{{ $tarefaId ? 'Atualizar' : 'Cadastrar' }}</button>
                 </div>
             </form>
         </div>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Cadastro;
+namespace App\Models\Catalogo;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -39,9 +39,9 @@ class Categoria extends Model
 
     public static function procurar($pesquisa)
     {
-      return empty($pesquisa)
-      ? static::query()
-      : static::query()->where('nome', 'LIKE', '%'.$pesquisa.'%')
-                       ->orWhere('id', 'LIKE', '%'.$pesquisa.'%');
+        return empty($pesquisa)
+            ? static::query()
+            : static::query()->where('nome', 'LIKE', '%'.$pesquisa.'%')
+                             ->orWhere('id', 'LIKE', '%'.$pesquisa.'%');
     }
 }

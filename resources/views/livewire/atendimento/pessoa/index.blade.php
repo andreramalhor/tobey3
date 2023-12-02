@@ -17,7 +17,7 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <a class="btn btn-primary btn-block btn-sm float-right" wire:click="create"><i class="fa fa-plus"></i> Cadastrar nova pessoa</a>
+                        <a class="btn btn-secondary btn-block btn-sm float-right" wire:click="create"><i class="fa fa-plus"></i> Cadastrar nova pessoa</a>
                     </div>
                 </div>
                 <table class="table">

@@ -19,6 +19,13 @@
         </x-adminlte.layouts.navbar-links>
         @endcan
 
+        <x-adminlte.layouts.navbar-links icon="<i class='fa-solid fa-solid fa-book-open'></i>" tooltip="Catálogo">
+            <li><a class="dropdown-item" href="{{ route('cat.categorias') }}">Categorias</a></li>
+            <li><a class="dropdown-item" href="{{ route('cat.servicos') }}">Serviços</a></li>
+            <li><a class="dropdown-item" href="{{ route('cat.produtos') }}">Produtos</a></li>
+            <li><a class="dropdown-item" href="{{ route('cat.compras') }}">Compra de produtos</a></li>
+        </x-adminlte.layouts.navbar-links>
+
         <x-adminlte.layouts.navbar-links icon="<i class='fa-solid fa-solid fa-handshake'></i>" tooltip="Comercial">
             <li><a class="dropdown-item" href="{{ route('com.leads.dashboard') }}">Dashboard</a></li>
             <li><a class="dropdown-item" href="{{ route('com.leads.comissoes') }}">Comissões</a></li>
@@ -53,12 +60,26 @@
         @endcan
     </ul>
 
-
-
-
-
-
     <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown user-menu">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" id="nav-link-menu-user" role="button" aria-expanded="false">
+                <img src="{{ auth()->user()->sdfjsefbdjfhufe->src_foto }}" class="user-image img-circle elevation-2">
+            </a>
+            <ul class="dropdown-menu-lg dropdown-menu dropdown-menu-end" aria-labelledby="nav-link-menu-user">
+                <li class="user-header">
+                    <img src="{{ auth()->user()->sdfjsefbdjfhufe->src_foto }}" class="img-circle elevation-2 d-inline">
+                    <p class="">{{ auth()->user()->name }}<small>{{ auth()->user()->sdfjsefbdjfhufe->nome }}</small></p>
+                </li>
+                <li class="user-footer">
+                    <a href="{{ route('profile.show') }}" class="btn btn-default btn-flat"><i class="fas fa-user"></i> Perfil</a>
+                    <a class="btn btn-default btn-flat float-right " href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-fw fa-power-off"></i>Sair</a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    {{-- <ul class="navbar-nav ml-auto">
         @if(1==2)
             @can('Administrador do sistema')
             <li class="nav-item">
@@ -217,5 +238,5 @@
                 </form>
             </x-slot>
         </x-dropdown>
-    </ul>
+    </ul> --}}
 </nav>

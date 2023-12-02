@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Livewire\Atendimento\Pessoa;
-use App\Livewire\Cadastro\Categoria;
+use App\Livewire\Catalogo\{Categoria, Servico, Produto, Compra};
 use App\Livewire\Comercial\Lead;
 use App\Livewire\Comercial\Lead\{Index, Criar, Empresa, Atender, Dashboard, Comissao};
 use App\Livewire\Financeiro\{Lancamento};
@@ -12,6 +12,7 @@ use App\Livewire\Ferramenta\Kanban\{Kanbancriar, Kanbanlistar};
 use App\Livewire\Ferramenta\Todo\{Todoarchive, Todoedit, Todoshow, Todolist};
 use App\Livewire\Configuracao\{Usuario};
 use App\Livewire\StudentsComponent;
+use App\Livewire\Counter;
 
 
 /*
@@ -43,9 +44,12 @@ Route::group(['middleware' => 'auth', 'prefix' => '/atendimento'], function()
 });
 
 
-Route::group(['middleware' => 'auth', 'prefix' => '/cadastro'], function()
+Route::group(['middleware' => 'auth', 'prefix' => '/catalogo'], function()
 {
-    Route::get('/categorias',           Categoria::class)           ->name('cad.categorias');
+    Route::get('/categorias',           Categoria::class)           ->name('cat.categorias');
+    Route::get('/servicos',             Servico::class)             ->name('cat.servicos');
+    Route::get('/produtos',             Produto::class)             ->name('cat.produtos');
+    Route::get('/compra-de-produtos',   Compra::class)              ->name('cat.compras');
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => '/comercial'], function()
@@ -70,7 +74,8 @@ Route::group(['middleware' => 'auth', 'prefix' => '/financeiro'], function()
 
 Route::group(['middleware' => 'auth', 'prefix' => '/ferramenta'], function()
 {
-    Route::get('/kanban',               Kanbanlistar::class)        ->name('fer.kanban.listar');
+    Route::get('/kanban',               Counter::class)        ->name('fer.kanban.listar');
+    // Route::get('/kanban',               Kanbanlistar::class)        ->name('fer.kanban.listar');
 
     Route::get('/todo',                 Todoarchive::class)         ->name('fer.todo.listar12');
     Route::get('/todo/archive',         Todoedit::class)            ->name('archive');

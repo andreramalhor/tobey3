@@ -11,7 +11,7 @@
                     @forelse ($tarefas as $ciclo)
                     {{-- <x-livewire.ferramenta.tarefa.index item="{{ $ciclo }}" wire:key="{{ $ciclo->id }}"/> --}}
                     <li wire:key="{{ $ciclo->id }}" class="{{ $ciclo->status == 'Concluído' ? 'done' : '' }}">
-                        <div class="icheck-primary d-inline ml-2">
+                        <div class="icheck-secondary d-inline ml-2">
                             <input type="checkbox" value="" id="tarefaCheck{{ $ciclo->id }}" wire:click="marcar({{ $ciclo->id }}, '{{ $ciclo->status }}')" {{ $ciclo->status == 'Concluído' ? 'checked' : '' }}>
                             <label for="tarefaCheck{{ $ciclo->id }}"></label>
                         </div>
@@ -33,7 +33,7 @@
                 </ul>
             </div>
             <div class="card-footer clearfix">
-                <a class="btn btn-primary float-right btn-sm float-right" wire:click="create"><i class="fa fa-plus"></i> Nova tarefa</a>
+                <a class="btn btn-secondary float-right btn-sm float-right" wire:click="create"><i class="fa fa-plus"></i> Nova tarefa</a>
             </div>
         </div>
     </div>

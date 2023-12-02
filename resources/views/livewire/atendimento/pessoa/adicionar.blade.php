@@ -95,7 +95,7 @@
                                             </div>
                                         </div>
                                         <div class="col-6 align-self-center">
-                                            <input type="file" wire:model.live="foto" class="btn btn-primary col start">
+                                            <input type="file" wire:model.live="foto" class="btn btn-secondary col start">
                                             <span class="text-danger">@error('foto') {{ $message }} @enderror</span>
                                         </div>
                                     </div>
@@ -105,10 +105,10 @@
 
                     </div>
 
-                    <button type="submit" class="btn btn-primary mt-4">
+                    <button type="submit" class="btn btn-secondary mt-4">
                         {{ $pessoaId ? 'Atualizar' : 'Cadastrar' }}
                     </button>
-                    <button type="button" wire:click="closeModal" class="btn btn-secondary mt-4">Cancelar</button>
+                    <button type="button" wire:click="closeModal" class="btn btn-defaut mt-4">Cancelar</button>
                 </form>
             </div>
         </div>

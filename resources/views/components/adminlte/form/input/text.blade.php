@@ -5,7 +5,7 @@
         @endif
         <input
             type="text"
-            class="form-control form-control-sm @error('{{ $name }}') is-invalid @enderror"
+            {{ $attributes->merge(['class' => 'form-control form-control-sm']) }} @error('{{ $name }}') is-invalid @enderror
             wire:model.live="{{ $name }}"
             placeholder="{{ $placeholder ?? '' }}"
             {{ $attributes }}

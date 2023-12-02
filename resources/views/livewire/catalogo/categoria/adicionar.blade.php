@@ -25,10 +25,10 @@
                         <textarea wire:model="descricao" class="form-control" rows="4"></textarea>
                         <span class="text-danger">@error('descricao') {{ $message }} @enderror</span>
                     </div>
-                    <button type="submit" class="btn btn-primary mt-4">
+                    <button type="submit" class="btn btn-secondary mt-4">
                         {{ $categoriaId ? 'Atualizar' : 'Cadastrar' }}
                     </button>
-                    <button type="button" wire:click="closeModal" class="btn btn-secondary mt-4">Cancelar</button>
+                    <button type="button" wire:click="closeModal" class="btn btn-default mt-4">Cancelar</button>
                 </form>
             </div>
         </div>

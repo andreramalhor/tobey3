@@ -25,8 +25,8 @@
                 {{-- <i class="fas fa-plus"></i> --}}
               </span>
             </div>
-            
-            {{-- <span class="btn btn-primary col start" onclick="pessoa_gravar_avatar()"> --}}
+
+            {{-- <span class="btn btn-secondary col start" onclick="pessoa_gravar_avatar()"> --}}
               {{-- <i class="fas fa-upload"></i> --}}
             {{-- </span> --}}
             <div class="btn-group w-100">
@@ -36,7 +36,7 @@
             </div>
           </div>
         </div>
-        {{-- 
+        {{--
         <div class="row" style="margin-bottom: 20px;">
           <div class="col-lg-12 d-flex align-items-center">
             <div class="fileupload-process w-100">
@@ -63,7 +63,7 @@
 
     let dados = $('#form_pessoas_adicionar_avatar');
     // let dados = $('#form_pessoas_adicionar_avatar').serialize();
-    
+
     axios.post('{{ route('atd.pessoas.avatar') }}', formData,
     {
       headers:

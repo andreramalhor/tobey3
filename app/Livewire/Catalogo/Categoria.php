@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Livewire\Cadastro;
+namespace App\Livewire\Catalogo;
 
 use Livewire\Attributes\Rule;
-use App\Models\Cadastro\Categoria as DBCategoria;
+use App\Models\Catalogo\Categoria as DBCategoria;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -135,7 +135,6 @@ class Categoria extends Component
 
     public function listar()
     {
-
         $categorias = DBCategoria::
                                 procurar($this->pesquisar)->
                                 paginate(10);
@@ -147,7 +146,7 @@ class Categoria extends Component
     {
         $categorias = $this->listar();
 
-        return view('livewire/cadastro/categoria/index', [
+        return view('livewire/catalogo/categoria/index', [
             'categorias' => $categorias,
         ])->layout('layouts/app');
     }

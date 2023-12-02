@@ -95,7 +95,7 @@ public function jrlcgwekejwbwel()
         return 'pink';
       case 'Secretária':
         return 'maroon';
-      case 'Administrador':
+      case 'Fornecedor':
         return 'fuchsia';
       case 'Administrador':
         return 'lime';
