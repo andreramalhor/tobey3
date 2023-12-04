@@ -8,9 +8,9 @@
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <label>Produto</label>
-                                <select class="form-control form-control-sm @error('{{ $name }}') is-invalid @enderror" wire:model="fin_compras_detalhes_id_servprod" wire:change="sobreProduto">
+                                <select class="form-control form-control-sm @error('{{ $name }}') is-invalid @enderror" wire:model="add_prod_escolhido" wire:change="sobreProduto">
                                     <option>Selecione . . .</option>
-                                    @foreach($produtosfornecedor as $produto )
+                                    @foreach($add_forn_prod_lista as $produto )
                                     <option value="{{ $produto->id }}">{{ $produto->nome }}</option>
                                     @endforeach
                                 </select>
@@ -22,41 +22,40 @@
                         <div class="col-sm-1">
                             <div class="form-group">
                                 <label>Qtd</label>
-                                <input type="number" class="form-control form-control-sm text-center @error('fin_compras_detalhes_qtd') is-invalid @enderror" wire:model="fin_compras_detalhes_qtd" min="0" id="campo_compras_detalhes_qtd" onchange="calcularTotal()">
-                                @error('fin_compras_detalhes_qtd')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                <input type="number" class="form-control form-control-sm text-center @error('add_prod_escolhido_qtd') is-invalid @enderror" wire:model="add_prod_escolhido_qtd" min="0" id="campo_compras_detalhes_qtd" onchange="calcularTotal()">
+                                @error('add_prod_escolhido_qtd')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
                         </div>
 
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <label>Custo unitário</label>
-                                <input type="text" class="form-control form-control-sm text-right @error('fin_compras_detalhes_vlr_compra') is-invalid @enderror" wire:model="fin_compras_detalhes_vlr_compra" id="campo_compras_detalhes_vlr_compra" onchange="calcularTotal()">
-                                <div class="small">Último valor: {{ number_format($fin_compras_detalhes_vlr_compra ?? 0, 2, ',', '.') }}</div>
-                                @error('fin_compras_detalhes_vlr_compra')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                <input type="text" class="form-control form-control-sm text-right @error('add_prod_escolhido_vlr_compra') is-invalid @enderror" wire:model="add_prod_escolhido_vlr_compra" id="campo_compras_detalhes_vlr_compra" onchange="calcularTotal()">
+                                <div class="small">Último valor: {{ number_format($add_prod_escolhido_vlr_compra ?? 0, 2, ',', '.') }}</div>
+                                @error('add_prod_escolhido_vlr_compra')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
                         </div>
 
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <label>Desc. / Acr.</label>
-                                <input type="text" class="form-control form-control-sm text-right @error('fin_compras_detalhes_vlr_dsc_acr') is-invalid @enderror" wire:model="fin_compras_detalhes_vlr_dsc_acr" id="campo_compras_detalhes_vlr_dsc_acr" onchange="calcularTotal()">
-                                @error('fin_compras_detalhes_vlr_dsc_acr')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                <input type="text" class="form-control form-control-sm text-right @error('add_prod_escolhido_vlr_dsc_acr') is-invalid @enderror" wire:model="add_prod_escolhido_vlr_dsc_acr" id="campo_compras_detalhes_vlr_dsc_acr" onchange="calcularTotal()">
+                                @error('add_prod_escolhido_vlr_dsc_acr')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
                         </div>
 
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <label>Custo unitário final</label>
-                                <input type="text" class="form-control form-control-sm text-right @error('fin_compras_detalhes_vlr_final') is-invalid @enderror" wire:model="fin_compras_detalhes_vlr_final" id="campo_compras_detalhes_vlr_final" readonly>
-                                @error('fin_compras_detalhes_vlr_final')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                <input type="text" class="form-control form-control-sm text-right @error('add_prod_escolhido_vlr_final') is-invalid @enderror" wire:model="add_prod_escolhido_vlr_final" id="campo_compras_detalhes_vlr_final" readonly>
+                                @error('add_prod_escolhido_vlr_final')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
                         </div>
 
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <label>Custo final</label>
-                                <input type="text" class="form-control form-control-sm text-right @error('fin_compras_detalhes_vlr_custo_total') is-invalid @enderror" wire:model="fin_compras_detalhes_vlr_custo_total" id="campo_compras_detalhes_vlr_custo_total" readonly>
-                                @error('fin_compras_detalhes_vlr_custo_total')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                <input type="text" class="form-control form-control-sm text-right" id="campo_compras_detalhes_vlr_custo_total" readonly>
                             </div>
                         </div>
 
@@ -86,7 +85,6 @@
                                             <table class="table">
                                                 <thead class="table-dark">
                                                     <tr>
-                                                        <th class="text-center">#</th>
                                                         <th class="text-left">Produto</th>
                                                         <th class="text-right">Custo unitário</th>
                                                         <th class="text-right">Desc/Acr.</th>
@@ -98,9 +96,8 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @forelse ($fin_compras_detalhes as $volta)
+                                                    @forelse ($fin_compras_detalhes->sortByDesc('id') as $volta)
                                                     <tr wire:key="{{ $volta->id }}">
-                                                        <td class="p-1 text-center">{{ $volta->id }}</td>
                                                         <td class="p-1 text-left">{{ $volta->odkqoweiwoeiowj->nome }}</td>
                                                         <td class="p-1 text-right"><small>{{ number_format($volta->vlr_compra, 2, ',', '.') }}</small></td>
                                                         <td class="p-1 text-right"><small>{{ number_format($volta->vlr_dsc_acr, 2, ',', '.') }}</small></td>
@@ -114,7 +111,7 @@
                                                     </tr>
                                                     @empty
                                                     <tr>
-                                                        <td colspan="9" class="text-center"><small>Não há produtos adicionados a essa compra.</small></td>
+                                                        <td colspan="8" class="text-center"><small>Não há produtos adicionados a essa compra.</small></td>
                                                     </tr>
                                                     @endforelse
                                                 </tbody>

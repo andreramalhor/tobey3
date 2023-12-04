@@ -81,6 +81,8 @@
             // Aguarde a formatação e, em seguida, atualize o valor no campo
             await Promise.resolve(numeroFormatado).then(valorFormatado => {
                 $('#campo_compras_detalhes_vlr_compra').val(valorFormatado);
+                $('#campo_compras_detalhes_vlr_final').val(valorFormatado);
+                $('#campo_compras_detalhes_vlr_custo_total').val(valorFormatado);
             })
 
         })
