@@ -41,6 +41,7 @@
             <li><a class="dropdown-item" href="{{ route('fin.lancamentos.dashboard') }}">Dashboard</a></li>
             <li><a class="dropdown-item" href="{{ route('fin.lancamentos.criar') }}">Lançamentos</a></li>
             <li><a class="dropdown-item" href="{{ route('fin.lancamentos') }}">Extrato de movimentações</a></li>
+            <!-- <li><a class="dropdown-item" href="{{ route('fin.bancos') }}">Bancos</a></li> -->
         </x-adminlte.layouts.navbar-links>
         @endcan
 

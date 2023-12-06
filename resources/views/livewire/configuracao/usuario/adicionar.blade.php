@@ -34,10 +34,10 @@
                 </div>
 
                 <div class="modal-footer p-0">
-                    <button type="submit" class="btn btn-primary mt-4">
+                    <button type="submit" class="btn btn-secondary mt-4">
                         {{ $usuarioId ? 'Atualizar' : 'Cadastrar' }}
                     </button>
-                    <button type="button" wire:click="closeModal" class="btn btn-secondary mt-4">Cancelar</button>
+                    <button type="button" wire:click="closeModal" class="btn btn-default mt-4">Cancelar</button>
                 </div>
             </div>
         </form>

@@ -6,7 +6,7 @@ use App\Livewire\Atendimento\Pessoa;
 use App\Livewire\Catalogo\{Categoria, Servico, Produto, Compra};
 use App\Livewire\Comercial\Lead;
 use App\Livewire\Comercial\Lead\{Index, Criar, Empresa, Atender, Dashboard, Comissao};
-use App\Livewire\Financeiro\{Lancamento};
+use App\Livewire\Financeiro\{Lancamento, Banco};
 use App\Livewire\Financeiro\Lancamento\{Lancamentodashboard, Lancamentocriar, Lancamentolistar};
 use App\Livewire\Ferramenta\Kanban\{Kanbancriar, Kanbanlistar};
 use App\Livewire\Ferramenta\Todo\{Todoarchive, Todoedit, Todoshow, Todolist};
@@ -83,6 +83,7 @@ Route::group(['middleware' => 'auth', 'prefix' => '/comercial'], function()
 Route::group(['middleware' => 'auth', 'prefix' => '/financeiro'], function()
 {
     Route::get('/lancamentos',          Lancamento::class)          ->name('fin.lancamentos');
+    Route::get('/bancos',               Banco::class)               ->name('fin.bancos');
     Route::get('/dashoboard',           Lancamentodashboard::class) ->name('fin.lancamentos.dashboard');
     // Route::get('/lancamentos',          Lancamentolistar::class)    ->name('fin.lancamentos.listar');
     Route::get('/lancamentos/criar',    Lancamentocriar::class)     ->name('fin.lancamentos.criar');
@@ -481,7 +482,7 @@ Route::middleware([
         // =============================================================================================================================================================================================  FINALIZADO
     
         Route::group(['prefix' => '/cadastro'], function() {
-            Route::get('/categorias',                                [CatalogoController::class, 'categorias'])                       ->name('cat.categorias')                        ->middleware('auth');
+            // Route::get('/categorias',                                [CatalogoController::class, 'categorias'])                       ->name('cat.categorias')                        ->middleware('auth');
             Route::get('/categorias/tabelar',                        [CatalogoController::class, 'categorias_tabelar'])               ->name('cat.categorias.tabelar')                ->middleware('auth');
             Route::get('/categorias/mostrar/{id}',                   [CatalogoController::class, 'categorias_mostrar'])               ->name('cat.categorias.mostrar')                ->middleware('auth');
             Route::get('/categorias/adicionar',                      [CatalogoController::class, 'categorias_adicionar'])             ->name('cat.categorias.adicionar')              ->middleware('auth');
@@ -529,7 +530,7 @@ Route::middleware([
             Route::get('/produtos/listar_compras',                   [CatalogoController::class, 'produtos_listar_compras'])          ->name('cat.servprod.listar_compras')           ->middleware('auth');
             Route::get('/produtos/pesquisar/{id}',                   [CatalogoController::class, 'produtos_pesquisar'])               ->name('cat.servprod.pesquisar')                ->middleware('auth');
     
-            Route::get('/produtos',                                  [CatalogoController::class, 'produtos'])                         ->name('cat.produtos')                          ->middleware('auth');
+            // Route::get('/produtos',                                  [CatalogoController::class, 'produtos'])                         ->name('cat.produtos')                          ->middleware('auth');
             Route::get('/produtos/tabelar',                          [CatalogoController::class, 'produtos_tabelar'])                 ->name('cat.produtos.tabelar')                  ->middleware('auth');
             Route::get('/produtos/mostrar/{id}',                     [CatalogoController::class, 'produtos_mostrar'])                 ->name('cat.produtos.mostrar')                  ->middleware('auth');
             Route::get('/produtos/adicionar',                        [CatalogoController::class, 'produtos_adicionar'])               ->name('cat.produtos.adicionar')                ->middleware('auth');
@@ -539,7 +540,7 @@ Route::middleware([
             Route::delete('/produtos/excluir/{id}',                  [CatalogoController::class, 'produtos_excluir'])                 ->name('cat.produtos.excluir')                  ->middleware('auth');
             
             Route::post('/servicos/restaurar/{id}',                  [CatalogoController::class, 'servicos_restaurar'])               ->name('cat.servicos.restaurar')                ->middleware('auth');
-            Route::get('/servicos',                                  [CatalogoController::class, 'servicos'])                         ->name('cat.servicos')                          ->middleware('auth');
+            // Route::get('/servicos',                                  [CatalogoController::class, 'servicos'])                         ->name('cat.servicos')                          ->middleware('auth');
             Route::get('/servicos/tabelar',                          [CatalogoController::class, 'servicos_tabelar'])                 ->name('cat.servicos.tabelar')                  ->middleware('auth');
             Route::get('/servicos/mostrar/{id}',                     [CatalogoController::class, 'servicos_mostrar'])                 ->name('cat.servicos.mostrar')                  ->middleware('auth');
             Route::get('/servicos/adicionar',                        [CatalogoController::class, 'servicos_adicionar'])               ->name('cat.servicos.adicionar')                ->middleware('auth');
@@ -604,7 +605,7 @@ Route::middleware([
             Route::get('/dashboard_saldo_final_asaas',               [LancamentosController::class, 'dashboard_saldo_final_asaas']) ->name('fin.dashboard_saldo_final_asaas')     ->middleware('auth');
             Route::get('/dashboard_saldo_final_geral',               [LancamentosController::class, 'dashboard_saldo_final_geral']) ->name('fin.dashboard_saldo_final_geral')     ->middleware('auth');
     
-            Route::get('/bancos',                                    [LancamentosController::class, 'bancos'])                      ->name('fin.bancos')                          ->middleware('can:Bancos.Menu');
+            // Route::get('/bancos',                                    [LancamentosController::class, 'bancos'])                      ->name('fin.bancos')                          ->middleware('can:Bancos.Menu');
             Route::get('/bancos/tabelar',                            [LancamentosController::class, 'bancos_tabelar'])              ->name('fin.bancos.tabelar')                  ->middleware('can:Bancos.Menu');
             Route::get('/bancos/mostrar/{id}',                       [LancamentosController::class, 'bancos_mostrar'])              ->name('fin.bancos.mostrar')                  ->middleware('can:Bancos.Visualizar');
             Route::get('/bancos/adicionar',                          [LancamentosController::class, 'bancos_adicionar'])            ->name('fin.bancos.adicionar')                ->middleware('can:Bancos.Criar');

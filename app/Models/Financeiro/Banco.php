@@ -19,6 +19,7 @@ class Banco extends Model
   protected $table      = 'fin_bancos';
   protected $primaryKey = 'id';
   protected $fillable = [
+    'id_empresa',
     'nome',
     'num_banco',
     'num_agencia',
@@ -29,9 +30,21 @@ class Banco extends Model
     'pix',
   ];
   protected $appends = [
-    'saldo_atual',
+    // 'saldo_atual',
   ];
 
+  // AUXILIARES              ===========================================================================================
+  public static function procurar($pesquisa)
+  {
+    return empty($pesquisa)
+    ? static::query()
+    : static::query()->where('nome', 'LIKE', '%'.$pesquisa.'%')
+                      ->orWhere('num_banco', 'LIKE', '%'.$pesquisa.'%')
+                      ->orWhere('num_agencia', 'LIKE', '%'.$pesquisa.'%')
+                      ->orWhere('num_conta', 'LIKE', '%'.$pesquisa.'%')
+                      ->orWhere('id', 'LIKE', '%'.$pesquisa.'%');
+  }
+  
 // RELACIONAMENTOS  ===========================================================================================
 //   public function FinLancamentos()
 //   {

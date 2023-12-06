@@ -30,8 +30,8 @@
                         <br>
                     </ul>
 
-                    <button type="submit" class="btn btn-primary mt-4">Atualizar</button>
-                    <button type="button" wire:click="closeModal" class="btn btn-secondary mt-4">Cancelar</button>
+                    <button type="submit" class="btn btn-secondary mt-4">Atualizar</button>
+                    <button type="button" wire:click="closeModal" class="btn btn-defaul mt-4">Cancelar</button>
                 </div>
             </form>
         </div>
