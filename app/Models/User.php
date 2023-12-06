@@ -15,6 +15,7 @@ use App\Models\ACL\Funcao;
 use App\Models\ACL\FuncaoPessoa;
 use App\Models\ACL\Permissao;
 use App\Models\Atendimento\Pessoa;
+use App\Models\PDV\Caixa;
 
 class User extends Authenticatable
 {
@@ -117,14 +118,21 @@ class User extends Authenticatable
     }
 
     //|||||||||||||||||||||||||||||||||||||||||||||||||   AUXILIARES   ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-
+    
     public static function procurar($pesquisa)
     {
         return empty($pesquisa)
-                        ? static::query()
-                        : static::query()->where('name', 'LIKE', '%'.$pesquisa.'%')
-                                         ->orWhere('email', 'LIKE', '%'.$pesquisa.'%');
+        ? static::query()
+        : static::query()->where('name', 'LIKE', '%'.$pesquisa.'%')
+        ->orWhere('email', 'LIKE', '%'.$pesquisa.'%');
     }
 
+
+    //|||||||||||||||||||||||||||||||||||||||||||||||||   CAIXAS       ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    
+    public function abcde()
+    {
+      return $this->hasMany(Caixa::class, 'id_usuario_abertura', 'id')->where('dt_abertura', '>=', \Carbon\Carbon::today())->where('status', '=', 'Aberto');
+    }
 
 }

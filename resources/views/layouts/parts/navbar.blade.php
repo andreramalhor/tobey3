@@ -16,6 +16,7 @@
         <x-adminlte.layouts.navbar-links icon="<i class='fa-solid fa-users'></i>" tooltip="Atendimento">
             <li><a class="dropdown-item" href="{{ route('atd.pessoas') }}">Pessoas</a></li>
             <li><a class="dropdown-item" href="{{ route('atd.clientes') }}">Clientes</a></li>
+            <li><a class="dropdown-item" href="{{ route('atd.agendamentos') }}">Agendamentos</a></li>
         </x-adminlte.layouts.navbar-links>
         @endcan
 
@@ -54,11 +55,29 @@
         @can('Sócios')
         <!-- can('Lançamentos.Visualizar') -->
         <x-adminlte.layouts.navbar-links icon="<i class='fa-solid fa-solid fa-gear'></i>" tooltip="Configurações">
+            <li><a class="dropdown-item" href="{{ route('cfg.sistema') }}">Opções de sistema</a></li>
             <li><a class="dropdown-item" href="{{ route('cfg.usuarios') }}">Usuários do sistema</a></li>
             {{-- <li><a class="dropdown-item" href="{{ route('fer.tarefas.listar') }}">Tarefas</a></li> --}}
         </x-adminlte.layouts.navbar-links>
         @endcan
+
+        @can('Sócios')
+        <!-- can('PDV.Visualizar') -->
+        <x-adminlte.layouts.navbar-links icon="<i class='fa-solid fa-solid fa-store'></i>" tooltip="PDV">
+            <li><a class="dropdown-item" href="{{ route('pdv.caixas') }}"><i class='fa-solid fa-solid fa-cash-register'></i> Caixas</a></li>
+            <li><a class="dropdown-item" href="{{ route('pdv.vendas') }}"><i class='fa-solid fa-solid fa-receipt'></i> Vendas</a></li>
+        </x-adminlte.layouts.navbar-links>
+        @endcan
     </ul>
+
+
+
+
+
+
+
+
+    
 
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown user-menu">

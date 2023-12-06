@@ -24,7 +24,13 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $permissoes = Permissao::with('dzjvxinawjwtnfa')->get();
+        // $permissoes = Permissao::with('dzjvxinawjwtnfa')->get();
+        $permissoes = cache()->rememberForever(
+                                            'acl::permissoes',
+                                            fn() => Permissao::
+                                                            with('dzjvxinawjwtnfa')->
+                                                            get()
+                                            );
 
         foreach ($permissoes as $key => $permissao)
         {

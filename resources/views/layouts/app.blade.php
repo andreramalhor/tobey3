@@ -30,7 +30,13 @@
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"  rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,300,0,-25"  rel="stylesheet" />
         <link href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" rel="stylesheet" />
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css" rel="stylesheet">
+        
+        <link rel="stylesheet" href="{{ asset('assets/fullcalendar/lib/main.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/fullcalendar-scheduler/lib/main.min.css') }}">
+        
+        <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"> -->
         <!-- Styles -->
         @stack('css')
         @livewireStyles
@@ -63,7 +69,9 @@
 
                 <section class="content pt-3">
                     <div class="container-fluid">
-                        {{ $slot }}
+                        @yield('content')
+
+                        {{ $slot ?? '' }}
                     </div>
                 </section>
             </div>
@@ -103,12 +111,155 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/accounting.js/0.1/accounting.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/collect.js/4.34.3/collect.min.js"></script>
 
+        <script src="{{ asset('assets/fullcalendar/lib/main.min.js') }}"></script>
+        <script src="{{ asset('assets/fullcalendar/lib/locales/pt-br.js') }}"></script>
+        <script src="{{ asset('assets/fullcalendar-scheduler/lib/main.min.js') }}"></script>
+        <script src="{{ asset('assets/fullcalendar-scheduler/lib/locales/pt-br.js') }}"></script>
+ 
         <script>
             $(document).ready(function()
             {
                 $('.select2').select2();
             });
+            
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            
+            function toastrjs(type = 'warning', msg = 'Mensagem master', confirm = false, title = null)
+            {
+                if(confirm)
+                {
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": false,
+                        "positionClass": "toast-bottom-full-width",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": 0,
+                        "extendedTimeOut": 0,
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut",
+                        
+                        "allowHtml": true,
+                        "tapToDismiss": false,
+                        // "onclick": function(toast) {
+                        //     value = toast.target.id
+                        //     if (value == 'yes')
+                        //     {
+                        //         console.log(toast.target.value, 'deu certo')
+                        //         alert('onclick')
+                        //         return 'deu certo';
+                        //     }
+                        // },
+                        // "onCloseClick": function(toast)
+                        // {
+                        //     return false
+                        // },
+                    }
+                }
+                else
+                {
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-bottom-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "3000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut",
+                    }
+                    
+                }
+                
+                Command: toastr[type](msg, title)
+            }
+            
+            $(document).on('select2:open', () => {
+                document.querySelector('.select2-search__field').focus();
+            });
+            
+            function inputMasksActivate()
+            {
+                $(".cpf").inputmask(
+                {
+                    mask: ["999.999.999-99", "99.999.999/9999-99"],
+                    keepStatic: true,
+                    greedy: false
+                })
+                
+                $(".dinheiro").inputmask(
+                {
+                    alias          : 'numeric',
+                    digits         : 2,
+                    groupSeparator : '.',
+                    radixPoint     : ',',
+                    digitsOptional : false,
+                    allowPlus      : true,
+                    allowMinus     : true,
+                    prefix         : '',
+                    placeholder    : '0,00',
+                })
+                
+                $(".percentual").inputmask(
+                {
+                    alias          : 'numeric',
+                    digits         : 2,
+                    radixPoint     : ',',
+                    digitsOptional : false,
+                    prefix         : '',
+                    placeholder    : '0'
+                })
+                
+                $(".cep").inputmask(
+                {
+                    mask: ["99999-999"]
+                })
+                
+                $(".ddd").inputmask(
+                {
+                    mask: ["99"]
+                })
+                
+                $(".telefone").inputmask(
+                {
+                    mask: ["9999-9999", "[9]9999-9999"]
+                })
+                
+                // alias: "percentage",
+                // digits: "2",
+                // rightAlign: false,
+                // suffix: "%",
+                // integerDigits: 5,
+                // digitsOptional: true,
+                // allowPlus: true,
+                // allowMinus: true,
+                // placeholder: "0",
+                // min: -1000,
+                // max: 1000,
+                // numericInput: true // se o cursos vai pro inicio ou se fica após a virgula
+            }
 
             window.addEventListener('swal:alert', event =>{
                 Swal.fire({
@@ -120,7 +271,7 @@
                     timer              : 1500,
                 })
             });
-
+            
             window.addEventListener("swal:confirm", event =>{
                 Swal.fire({
                     title              : event.detail[0].title,
@@ -139,10 +290,113 @@
                     }
                 })
             });
-        </script>
 
+        </script>
+        
         @stack('modals')
         @stack('js')
+        @yield('js')               // feito por andre para adaptacao do sistema antigo tobey
+
+        
+        @include('includes.modal.modal-geral-1')
+        @include('includes.modal.modal-geral-2')
+        @include('includes.modal.modal-geral-3')
+        @include('includes.modal.modal-geral-4')
+        @include('includes.modal.modal-geral-5')
+        @include('includes.modal.modal-geral-6')
+        @include('includes.modal.modal-geral-7')
+        @include('includes.modal.modal-geral-8')
+        @include('includes.modal.modal-geral-9')
+        @include('includes.modal.modal-geral-10')
+
+        @include('includes.offcanva.offcanva-geral-1')
+        @include('includes.offcanva.offcanva-geral-2')
+        @include('includes.offcanva.offcanva-geral-3')
+        @include('includes.offcanva.offcanva-geral-4')
+        @include('includes.offcanva.offcanva-geral-5')
+        @include('includes.offcanva.offcanva-geral-6')
+        @include('includes.offcanva.offcanva-geral-7')
+        @include('includes.offcanva.offcanva-geral-8')
+        @include('includes.offcanva.offcanva-geral-9')
+        @include('includes.offcanva.offcanva-geral-10')
+            
+
+            <script>
+                var id_mdl = 1
+
+                $('.modal')
+                .on({
+                    'show.bs.modal': function()
+                    {
+                        id_mdl = document.getElementsByClassName('modal show').length + 1
+                        console.log('show:' + id_mdl)
+                        // var id_mdl = $('.modal:visible').length
+                        // abrirModal(id_mdl)
+                        // $(this).css('z-index', 1040 + (10 * id_mdl))
+                    },
+                    'shown.bs.modal': function()
+                    {
+                        id_mdl = id_mdl + 1
+                        console.log('showN:' + id_mdl)
+                        // var id_mdl = ($('.modal:visible').length) - 1 // raise backdrop after animation.
+                        // $('.modal-backdrop').not('.stacked')
+                        //      .css('z-index', 1039 + (10 * id_mdl))
+                        //      .addClass('stacked')
+                    },
+                    'hidden.bs.modal': function()
+                    {
+                        id_mdl = id_mdl - 1
+                        console.log('hidden:' + id_mdl)
+
+                        // if ($('.modal:visible').length > 0)
+                        // {
+                            // restore the modal-open class to the body element, so that scrolling works
+                            // properly after de-stacking a modal.
+                            // setTimeout(function() {
+                                // $(document.body).addClass('modal-open')
+                            // }, 0)
+                        // }
+                    }
+                })
+
+                function vendas_mostrar_modal( id )
+                {
+                    var url = "{{ route('pdv.vendas.modal', ':idd') }}";
+                    var url = url.replace(':idd', id);
+                    
+                    axios.get(url)
+                    .then( function(response)
+                    {
+                        // console.log(response)
+                        $('#modal-geral-'+id_mdl).empty().append(response.data)
+                    })
+                    @include('includes.catch', [ 'codigo_erro' => '4442629a' ] )
+                    .then( function()
+                    {
+                        $('#modal-geral-'+id_mdl).modal('show')
+                    })
+                }
+
+                function pessoas_mostrar( id )
+                {
+                    var url = "{{ route('atd.pessoas.modal', ':idd') }}";
+                    var url = url.replace(':idd', id);
+                    
+                    axios.get(url)
+                    .then( function(response)
+                    {
+                        // console.log(response)
+                        $('#modal-geral-'+id_mdl).empty().append(response.data)
+                    })
+                    @include('includes.catch', [ 'codigo_erro' => '2197354a' ] )
+                    .then( function()
+                    {
+                        $('#modal-geral-'+id_mdl).modal('show')
+                    })
+                }
+
+            </script>
+
         @livewireScripts
     </body>
 </html>

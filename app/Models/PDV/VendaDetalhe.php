@@ -9,7 +9,9 @@ use Illuminate\Notifications\Notifiable;              //Se for usar Notifiable (
 use Carbon\Carbon;                                    //Se for usar tempo, timestamp, fuso-horário, função NOW
 
 use App\Models\Atendimento\Pessoa;
-use App\Models\Cadastro\ServicoProduto;
+use App\Models\Catalogo\ServicoProduto;
+use App\Models\Catalogo\Servico;
+use App\Models\Catalogo\Produto;
 use App\Models\Financeiro\ContaInterna;
 
 class VendaDetalhe extends Model

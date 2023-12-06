@@ -17,7 +17,7 @@ class ClientesSelect extends Component
 
     public function clientes()
     {
-        // return cache()->rememberForever( //live pinguin Laravel Blade Components - Parte 2 - a partir d minuto 49
+        // return cache()->rememberForever( //live pinguim Laravel Blade Components - Parte 2 - a partir d minuto 49
             // 'user::manager',
             // fn() => Pessoa::clientes()->orderBy('apelido', 'asc')->get()
         // );
