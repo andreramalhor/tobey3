@@ -54,7 +54,7 @@
       <div class="col-6">
         <div class="form-group">
           <label class="col-form-label">Custo Adicional</label>
-          <input type="text" class="form-control form-control-sm" name="cst_adicional" value="0">
+          <input type="text" class="form-control form-control-sm" name="vlr_cst_adicional" value="0">
         </div>
       </div>
       

@@ -261,7 +261,7 @@
                 // numericInput: true // se o cursos vai pro inicio ou se fica após a virgula
             }
 
-            window.addEventListener('swal:alert', event =>{
+            window.addEventListener('swal:alert', event => {
                 Swal.fire({
                     title              : event.detail[0].title,
                     text               : event.detail[0].text,
@@ -272,7 +272,7 @@
                 })
             });
             
-            window.addEventListener("swal:confirm", event =>{
+            window.addEventListener("swal:confirm", event => {
                 Swal.fire({
                     title              : event.detail[0].title,
                     text               : event.detail[0].text,
@@ -290,12 +290,91 @@
                     }
                 })
             });
+            
+            function aplicarMascaras()
+            {
+                var input_telefone = $('.telefone')
+                var mask_telefone  = new Inputmask('(99) 99999-9999')
+                for (const telefoneInput of input_telefone) {
+                    mask_telefone.mask(telefoneInput)
+                }
+                
+                var input_cep = $('.cep')
+                var mask_cep  = new Inputmask('99.999-999')
+                for (const cepInput of input_cep) {
+                    mask_cep.mask(cepInput)
+                }
+
+                var input_tempo = $('.tempo')
+                var mask_tempo  = new Inputmask({
+                    mask: '99:99:99',
+                    placeholder: 'hh:mm:ss',  // Substitua 'hh:mm:ss' pelo seu placeholder desejado                    
+                })
+                for (const tempoInput of input_tempo) {
+                    mask_tempo.mask(tempoInput)
+                }
+                
+                var input_percentual = $('.percentual')
+                var mask_percentual  = new Inputmask({
+                    alias: 'numeric',
+                    suffix: '%',
+                    groupSeparator: '.', 
+                    radixPoint: ',',
+                    rightAlign: false,
+                    autoUnmask: true,
+                    min: 0,
+                    max: 100,
+                    step: 0.01,  // Defina o passo desejado para valores decimais
+                    allowMinus: false,
+                    allowPlus: false,
+                    placeholder: '0',
+                });
+                for (const percentualInput of input_percentual) {
+                    mask_percentual.mask(percentualInput)
+                }
+
+                var input_dinheiro = $('.dinheiro')
+                var mask_dinheiro  = new Inputmask({
+                    alias: 'currency',
+                    prefix: 'R$ ',        // ou o símbolo da moeda desejado
+                    suffix: '',           // Sufixo opcional (por exemplo, para o Brasil, o padrão é uma string vazia)
+                    groupSeparator: '.',  // Separador de milhares
+                    radixPoint: ',',      // Ponto decimal
+                    autoUnmask: true,     // Remove automaticamente os caracteres de máscara ao focar
+                    rightAlign: false,    // Alinha o texto à esquerda
+                });
+                for (const dinheiroInput of input_dinheiro) {
+                    mask_dinheiro.mask(dinheiroInput)
+                }
+                
+                var input_data = $('.data')
+                var mask_data = new Inputmask({
+                    alias: "datetime",
+                    inputFormat: "dd/mm/aaaa"
+                })
+                for (const dataInput of input_data) {
+                    mask_data.mask(dataInput)
+                }
+            }
+            
+            document.addEventListener('DOMContentLoaded', function () {
+                aplicarMascaras();
+            });
+            
+            window.addEventListener('mask:apply', function (event)
+            {
+                setTimeout(function () {
+                    aplicarMascaras();
+                }, 100);
+            });
+            
+
 
         </script>
         
         @stack('modals')
         @stack('js')
-        @yield('js')               // feito por andre para adaptacao do sistema antigo tobey
+        @yield('js') {{-- // feito por andre para adaptacao do sistema antigo tobey --}}
 
         
         @include('includes.modal.modal-geral-1')
@@ -320,8 +399,8 @@
         @include('includes.offcanva.offcanva-geral-9')
         @include('includes.offcanva.offcanva-geral-10')
             
-
             <script>
+
                 var id_mdl = 1
 
                 $('.modal')

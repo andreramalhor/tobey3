@@ -176,7 +176,7 @@ class Compra extends Component
         $this->bd_id_categoria                  = $compra->id_categoria;
         $this->bd_tipo_preco                    = $compra->tipo_preco;
         $this->bd_vlr_venda                     = $compra->vlr_venda;
-        $this->bd_cst_adicional                 = $compra->cst_adicional;
+        $this->bd_vlr_cst_adicional                 = $compra->vlr_cst_adicional;
         $this->bd_prc_comissao                  = $compra->prc_comissao;
         $this->bd_tempo_retorno                 = $compra->tempo_retorno;
         $this->bd_duracao                       = $compra->duracao;
@@ -222,7 +222,7 @@ class Compra extends Component
                 'id_categoria'                  => $this->bd_id_categoria,
                 'tipo_preco'                    => $this->bd_tipo_preco,
                 'vlr_venda'                     => $this->bd_vlr_venda,
-                'cst_adicional'                 => $this->bd_cst_adicional,
+                'vlr_cst_adicional'                 => $this->bd_vlr_cst_adicional,
                 'prc_comissao'                  => $this->bd_prc_comissao,
                 'tempo_retorno'                 => $this->bd_tempo_retorno,
                 'duracao'                       => $this->bd_duracao,

@@ -123,7 +123,7 @@
             id_categoria                  : "{!! $produto->id_categoria !!}",
             tipo_preco                    : "{!! $produto->tipo_preco !!}",
             vlr_venda                     : "{!! $produto->vlr_venda !!}",
-            cst_adicional                 : "{!! $produto->cst_adicional !!}",
+            vlr_cst_adicional                 : "{!! $produto->vlr_cst_adicional !!}",
             prc_comissao                  : "{!! $produto->prc_comissao !!}",
             tempo_retorno                 : "{!! $produto->tempo_retorno !!}",
             duracao                       : "{!! $produto->duracao !!}",

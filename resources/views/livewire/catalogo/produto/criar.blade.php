@@ -6,9 +6,9 @@
             <form wire:submit.prevent="gravar">
                 <div class="modal-header border-bottom-0 py-2 px-0">
                     <ul class="nav nav-tabs w-100">
-                        <h3 class="card-title text-left pt-1 pr-5 pl-1 ml-2">Cadastrar novo serviço</h3>
+                        <h3 class="card-title text-left pt-1 pr-5 pl-1 ml-2">Cadastrar novo produto</h3>
                         <li class="nav-item">
-                            <a class="nav-link {{ $tab_active == 'tab-servico' ? 'active' : '' }}" data-bs-toggle="pill" href="#tab-servico" wire:click="tabActive('tab-servico')">Serviço</a>
+                            <a class="nav-link {{ $tab_active == 'tab-produto' ? 'active' : '' }}" data-bs-toggle="pill" href="#tab-produto" wire:click="tabActive('tab-produto')">Produto</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ $tab_active == 'tab-valores' ? 'active' : '' }}" data-bs-toggle="pill" href="#tab-valores" wire:click="tabActive('tab-valores')">Valores</a>
@@ -28,10 +28,10 @@
                 </div>
                 <div class="modal-body">
                     <div class="tab-content">
-                        <div class="tab-pane fade {{ $tab_active == 'tab-servico' ? 'show active' : '' }}" id="tab-servico">
+                        <div class="tab-pane fade {{ $tab_active == 'tab-produto' ? 'show active' : '' }}" id="tab-produto">
                             <div class="row">
                                 <ul class="todo-list">
-                                    <label>Sobre o serviço</label>
+                                    <label>Sobre o produto</label>
                                     <li>
                                         <div class="row">
                                             <div class="col-sm-2">
@@ -147,7 +147,7 @@
                                             <div class="col-sm-2">
                                                 <div class="form-group">
                                                     <label for="bd_duracao">Tempo de execução</label>
-                                                    <input type="text" class="form-control form-control-sm text-center tempo @error('bd_duracao') is-invalid @enderror" wire:model="bd_duracao" placeholder="Duração do serviço">
+                                                    <input type="text" class="form-control form-control-sm text-center tempo @error('bd_duracao') is-invalid @enderror" wire:model="bd_duracao" placeholder="Duração do produto">
                                                     @error('bd_duracao')<div class="invalid-feedback">{{ $message ?? 'teste de mensagem de erro'}}</div>@enderror
                                                 </div>
                                             </div>
@@ -189,13 +189,12 @@
                                         <div class="row">
                                             <div class="col-sm-2">
                                                 <div class="form-group">
-                                                    <label for="bd_vlr_nota">Custos do serviço</label>
+                                                    <label for="bd_vlr_nota">Valor do produto</label>
                                                     <input type="text" class="form-control form-control-sm text-right dinheiro @error('bd_vlr_nota') is-invalid @enderror" wire:model="bd_vlr_nota" wire:change="atualizarValores">
                                                     @error('bd_vlr_nota')<div class="invalid-feedback">{{ $message ?? 'teste de mensagem de erro'}}</div>@enderror
                                                 </div>
                                             </div>
                                             
-                                            @if($bd_tipo == 'Produto')
                                             <div class="col-sm-2">
                                                 <div class="form-group">
                                                     <label for="bd_vlr_frete">Frete</label>
@@ -203,21 +202,12 @@
                                                     @error('bd_vlr_frete')<div class="invalid-feedback">{{ $message ?? 'teste de mensagem de erro'}}</div>@enderror
                                                 </div>
                                             </div>
-                                            @endif
                                             
                                             <div class="col-sm-2">
                                                 <div class="form-group">
                                                     <label for="bd_vlr_impostos">Impostos</label>
                                                     <input type="text" class="form-control form-control-sm text-right dinheiro @error('bd_vlr_impostos') is-invalid @enderror" wire:model="bd_vlr_impostos" wire:change="atualizarValores">
                                                     @error('bd_vlr_impostos')<div class="invalid-feedback">{{ $message ?? 'teste de mensagem de erro'}}</div>@enderror
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="col-sm-2">
-                                                <div class="form-group">
-                                                    <label for="bd_vlr_custo_comissao">Custo com comissão</label>
-                                                    <input type="text" class="form-control form-control-sm text-right dinheiro @error('bd_vlr_custo_comissao') is-invalid @enderror" wire:model="bd_vlr_custo_comissao" wire:change="atualizarValores">
-                                                    @error('bd_vlr_custo_comissao')<div class="invalid-feedback">{{ $message ?? 'teste de mensagem de erro'}}</div>@enderror
                                                 </div>
                                             </div>
                                             

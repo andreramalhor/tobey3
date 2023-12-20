@@ -27,7 +27,7 @@ class ServicoProduto extends Model
 		'id_categoria',
 		'tipo_preco',
 		'vlr_venda',
-		'cst_adicional',
+		'vlr_cst_adicional',
 		'prc_comissao',
 		'tempo_retorno',
 		'duracao',

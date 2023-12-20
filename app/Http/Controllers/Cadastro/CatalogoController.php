@@ -457,9 +457,9 @@ class CatalogoController extends Controller
         {
           $query->where('vlr_venda', 'LIKE', '%'.$request->vlr_venda.'%' );
         }
-        if ( isset( $request->cst_adicional ) )
+        if ( isset( $request->vlr_cst_adicional ) )
         {
-          $query->where('cst_adicional', 'LIKE', '%'.$request->cst_adicional.'%' );
+          $query->where('vlr_cst_adicional', 'LIKE', '%'.$request->vlr_cst_adicional.'%' );
         }
         if ( isset( $request->prc_comissao ) )
         {
@@ -613,9 +613,9 @@ class CatalogoController extends Controller
         {
           $query->where('vlr_venda', 'LIKE', '%'.$request->vlr_venda.'%' );
         }
-        if ( isset( $request->cst_adicional ) )
+        if ( isset( $request->vlr_cst_adicional ) )
         {
-          $query->where('cst_adicional', 'LIKE', '%'.$request->cst_adicional.'%' );
+          $query->where('vlr_cst_adicional', 'LIKE', '%'.$request->vlr_cst_adicional.'%' );
         }
         if ( isset( $request->prc_comissao ) )
         {
@@ -976,6 +976,7 @@ class CatalogoController extends Controller
 
   public function servicos_mostrar($id)
   {
+    dd(1212121);
     $servico = ServicoProduto::find($id);
 
     return view('sistema.catalogo.servicos.mostrar', [
@@ -1061,9 +1062,9 @@ class CatalogoController extends Controller
         {
           $query->where('vlr_venda', isset($request->Xvlr_venda) ? $request->Xvlr_venda : '=' , $request->vlr_venda );
         }
-        if ( isset( $request->cst_adicional ) )
+        if ( isset( $request->vlr_cst_adicional ) )
         {
-          $query->where('cst_adicional', isset($request->Xcst_adicional) ? $request->Xcst_adicional : '=' , $request->cst_adicional );
+          $query->where('vlr_cst_adicional', isset($request->Xvlr_cst_adicional) ? $request->Xvlr_cst_adicional : '=' , $request->vlr_cst_adicional );
         }
         if ( isset( $request->prc_comissao ) )
         {
@@ -1217,9 +1218,9 @@ class CatalogoController extends Controller
         {
           $query->where('vlr_venda', 'LIKE', '%'.$request->vlr_venda.'%' );
         }
-        if ( isset( $request->cst_adicional ) )
+        if ( isset( $request->vlr_cst_adicional ) )
         {
-          $query->where('cst_adicional', 'LIKE', '%'.$request->cst_adicional.'%' );
+          $query->where('vlr_cst_adicional', 'LIKE', '%'.$request->vlr_cst_adicional.'%' );
         }
         if ( isset( $request->prc_comissao ) )
         {

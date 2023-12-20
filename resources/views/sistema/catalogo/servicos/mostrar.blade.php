@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+@dd(12121)
 <div class="row">
   <div class="col-3">
     <div class="card">

@@ -396,7 +396,7 @@ $(document).ready(function()
     vlr_servprod   : null,
     vlr_dsc_acr    : null,
     vlr_final      : null,
-    cst_adicional  : null,
+    vlr_cst_adicional  : null,
     quantidade     : null,
     estoque_min    : null,
     estoque_max    : null,
@@ -474,7 +474,7 @@ function servprod_buscar( id_servprod )
     temp_detalhes.vlr_servprod   = response.data.vlr_venda
     temp_detalhes.vlr_dsc_acr    = 0
     temp_detalhes.vlr_final      = response.data.vlr_venda
-    temp_detalhes.cst_adicional  = response.data.cst_adicional
+    temp_detalhes.vlr_cst_adicional  = response.data.vlr_cst_adicional
     temp_detalhes.quantidade     = 1
     temp_detalhes.estoque_min    = response.data.estoque_min
     temp_detalhes.estoque_max    = response.data.estoque_max

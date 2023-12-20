@@ -27,7 +27,7 @@ class ServicoProduto extends Model
 		'id_categoria',
 		'tipo_preco',
 		'vlr_venda',
-		'cst_adicional',
+		'vlr_cst_adicional',
 		'prc_comissao',
 		'tempo_retorno',
 		'duracao',
@@ -48,6 +48,7 @@ class ServicoProduto extends Model
 		'vlr_mercado',
 		'vlr_nota',
 		'vlr_frete',
+		'vlr_impostos',
 		'vlr_comissao',
 		'vlr_marg_contribuicao',
 		'marg_contribuicao',
@@ -163,6 +164,11 @@ class ServicoProduto extends Model
 	public function setVlrFreteAttribute($value)
 	{
     $this->attributes['vlr_frete'] = str_replace(',', '.',str_replace('.', '',str_replace('R$ ', '', $value)));
+	}
+  
+  public function setVlrImpostosAttribute($value)
+	{
+    $this->attributes['vlr_impostos'] = str_replace(',', '.',str_replace('.', '',str_replace('R$ ', '', $value)));
 	}
 
 	public function setVlrComissaoAttribute($value)

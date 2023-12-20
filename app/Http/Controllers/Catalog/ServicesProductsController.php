@@ -29,7 +29,7 @@ class ServicesProductsController extends Controller
     $data->id_categoria                  = $request->id_categoria;
     $data->tipo_preco                    = $request->tipo_preco;
     $data->vlr_venda                     = $request->vlr_venda;
-    $data->cst_adicional                 = $request->cst_adicional;
+    $data->vlr_cst_adicional                 = $request->vlr_cst_adicional;
     $data->prc_comissao                  = $request->prc_comissao;
     $data->tempo_retorno                 = $request->tempo_retorno;
     $data->duracao                       = $request->duracao;

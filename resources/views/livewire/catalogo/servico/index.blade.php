@@ -1,6 +1,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card">
+            <div class="overlay d-none" wire:loading.class="d-block"></div>
             <div class="card-header">
                 <h3 class="card-title">Serviços</h3>
             </div>
@@ -17,7 +18,7 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <a class="btn btn-secondary btn-block btn-sm float-right" wire:click="create"><i class="fa fa-plus"></i> Novo serviço</a>
+                        <a class="btn btn-secondary btn-block btn-sm float-right" wire:click="criar"><i class="fa fa-plus"></i> Novo serviço</a>
                     </div>
                 </div>
                 <table class="table">
@@ -26,10 +27,8 @@
                             <th class="text-center">#</th>
                             <th class="text-center"></th>
                             <th class="text-left">Nome</th>
-                            <th class="text-left">E-mail</th>
-                            <th class="text-left">Endereço</th>
-                            <th class="text-left">Telefone</th>
-                            <th class="text-left">Tipos</th>
+                            <th class="text-center">Estoque</th>
+                            <th class="text-center">Status</th>
                             <th class="text-right"><i class="fas fa-ellipsis-h"></i></th>
                         </tr>
                     </thead>
@@ -40,14 +39,16 @@
                             <td class="p-1 text-center">
                                 <img class="direct-chat-img rounded-3" src="{{ $ciclo->src_foto }}">
                             </td>
-                            <td class="p-1 text-left">{{ $ciclo->nome }}</td>
-                            <td class="p-1 text-left">{{ $ciclo->email }}</td>
-                            <td class="p-1 text-left">{{ $ciclo->endereco }}</td>
-                            <td class="p-1 text-left">{{ $ciclo->fone }}</td>
                             <td class="p-1 text-left">
-                                {{-- @foreach($ciclo->kjahdkwkbewtoip->sortby('id') as $tipo)
-                                <small class="badge bg-{{ $tipo->color }}">{{ $tipo->nome }}</small>
-                                @endforeach --}}
+                                {{ $ciclo->nome }}
+                                <br/><small class="d-inline-block text-truncate" style="max-width: 150px;">{{ $ciclo->descricao }}</small>
+                            </td>
+                            <td class="p-1 text-center">
+                                {{ $ciclo->estoque_atual }}
+                                <br/><small>Mín: {{ $ciclo->estoque_min }} | Máx: {{ $ciclo->estoque_max }}</small>
+                            </td>
+                            <td class="p-1 text-center">
+                                <small class="badge bg-{{ !is_null($ciclo->ativo) ? 'success': 'gray' }}">{{ !is_null($ciclo->ativo) ? 'Ativo': 'Inativo' }}</small>
                             </td>
                             <td class="p-1 text-right">
                                 <x-icon.view click="{{ $ciclo->id }}" />
@@ -59,7 +60,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="5" class="text-center"><small>Não há servicos cadastrados</small></td>
+                            <td colspan="5" class="text-center"><small>Não há serviços cadastrados</small></td>
                         </tr>
                         @endforelse
                     </tbody>
@@ -76,7 +77,6 @@
     @include('livewire.catalogo.servico.editar')
     @include('livewire.catalogo.servico.mostrar')
 </div>
-
 
 {{--
 

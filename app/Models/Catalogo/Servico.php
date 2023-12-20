@@ -21,46 +21,55 @@ class Servico extends Model
 	protected $primaryKey = 'id';
 	protected $table      = 'cat_produtos_servicos';
 	protected $fillable   = [
-		'tipo',
-		'ativo',
-		'nome',
-		'id_categoria',
-		'tipo_preco',
-		'vlr_venda',
-		'cst_adicional',
-		'prc_comissao',
-		'tempo_retorno',
-		'duracao',
-		'fidelidade_pontos_ganhos',
-		'fidelidade_pontos_necessarios',
-
-		'unidade',
-		'marca',
-
-		'cod_nota',
-		'cod_barras',
-		'estoque_min',
-		'estoque_max',
-		'ncm_prod_serv',
-		'ipi_prod_serv',
-		'icms_prod_serv',
-		'simples_prod_serv',
-		'vlr_mercado',
-		'vlr_nota',
-		'vlr_frete',
-		'vlr_comissao',
-		'vlr_marg_contribuicao',
-		'marg_contribuicao',
-		'vlr_custo',
-		'vlr_custo_estoque',
-		'margem_custo',
-		'consumo_medio',
-		'cmv_prod_serv',
-		'curva_abc',
-		'id_fornecedor',
-		'descricao',
-		'status',
+    // Sobre o produto
+    'tipo',
+    'nome',
+    'descricao',
+    'ativo',
+    'id_categoria',
+    'id_fornecedor',
+    'marca',
+    'unidade',
+    'duracao',
+    'tipo_preco',
+    'status',
+    'cod_nota',
+    'cod_barras',
+    // Sobre o estoque
+    'estoque_min',
+    'estoque_max',
+    // Sobre a comissão
+    'tipo_comissao',
+    'prc_comissao',
+    'vlr_comissao',
+    // Sobre os valores
+    'vlr_venda',
+    'vlr_mercado',                      // remover, desnecessário!
+    'vlr_nota',
+    'vlr_frete',
+    'vlr_impostos',
+    'vlr_marg_contribuicao',
+    'vlr_cst_adicional',
+    'vlr_custo',
+    'vlr_custo_estoque',
+    'vlr_custo_comissao',
+    // Sobre os impostos
+    'ncm_prod_serv',
+    'ipi_prod_serv',
+    'icms_prod_serv',
+    'simples_prod_serv',
+    // Sobre os índices
+    'tempo_retorno',
+    'marg_contribuicao',
+    'margem_custo',
+    'consumo_medio',
+    'cmv_prod_serv',
+    'curva_abc',
+    // Sobre pontos de fidelidade
+    'fidelidade_pontos_ganhos',
+    'fidelidade_pontos_necessarios',
 	];
+
 	protected $appends = [
     'estoque_atual',
     'link_tipo',
@@ -101,7 +110,7 @@ class Servico extends Model
     return $this->belongsToMany(Pessoa::class, 'cnf_fornecedor_produto', 'id_servprod', 'id_fornecedor');
   }
 
-  public function ServicoOuProdutoNoDetalheDaComanda()
+  public function rfidfugoduhoehn()
   {
     return $this->hasMany(VendaDetalhe::class, 'id_servprod', 'id');
   }
@@ -150,6 +159,11 @@ class Servico extends Model
     $this->attributes['vlr_venda'] = str_replace(',', '.',str_replace('.', '',str_replace('R$ ', '', $value)));
 	}
 
+	public function setPrcComissaoAttribute($value)
+	{
+    $this->attributes['prc_comissao'] = str_replace(',', '.',str_replace('.', '',str_replace('R$ ', '', $value)));
+	}
+
 	public function setVlrMercadoAttribute($value)
 	{
     $this->attributes['vlr_mercado'] = str_replace(',', '.',str_replace('.', '',str_replace('R$ ', '', $value)));
@@ -165,9 +179,24 @@ class Servico extends Model
     $this->attributes['vlr_frete'] = str_replace(',', '.',str_replace('.', '',str_replace('R$ ', '', $value)));
 	}
 
+  public function setVlrImpostosAttribute($value)
+	{
+    $this->attributes['vlr_impostos'] = str_replace(',', '.',str_replace('.', '',str_replace('R$ ', '', $value)));
+	}
+
+  public function setVlrCstAdicionalAttribute($value)
+	{
+    $this->attributes['vlr_cst_adicional'] = str_replace(',', '.',str_replace('.', '',str_replace('R$ ', '', $value)));
+	}
+
 	public function setVlrComissaoAttribute($value)
 	{
     $this->attributes['vlr_comissao'] = str_replace(',', '.',str_replace('.', '',str_replace('R$ ', '', $value)));
+	}
+
+	public function setVlrCustoComissaoAttribute($value)
+	{
+    $this->attributes['vlr_custo_comissao'] = str_replace(',', '.',str_replace('.', '',str_replace('R$ ', '', $value)));
 	}
 
 	public function setVlrMargContribuicaoAttribute($value)
@@ -183,6 +212,66 @@ class Servico extends Model
 	public function setVlrCustoEstoqueAttribute($value)
 	{
     $this->attributes['vlr_custo_estoque'] = str_replace(',', '.',str_replace('.', '',str_replace('R$ ', '', $value)));
+	}
+
+	public function getVlrVendaAttribute()
+	{
+    return number_format($this->attributes['vlr_venda'], 2, ',', '.');
+	}
+
+	public function getPrcComissaoAttribute()
+	{
+    return number_format($this->attributes['prc_comissao'], 2, ',', '.');
+	}
+
+	public function getVlrMercadoAttribute()
+	{
+    return number_format($this->attributes['vlr_mercado'], 2, ',', '.');
+	}
+
+	public function getVlrNotaAttribute()
+	{
+    return number_format($this->attributes['vlr_nota'], 2, ',', '.');
+	}
+
+	public function getVlrFreteAttribute()
+	{
+    return number_format($this->attributes['vlr_frete'], 2, ',', '.');
+	}
+
+  public function getVlrImpostosAttribute()
+	{
+    return number_format($this->attributes['vlr_impostos'], 2, ',', '.');
+	}
+
+  public function getVlrCstAdicionalAttribute()
+	{
+    return number_format($this->attributes['vlr_cst_adicional'], 2, ',', '.');
+	}
+
+	public function getVlrCustoComissaoAttribute()
+	{
+    return number_format($this->attributes['vlr_custo_comissao'], 2, ',', '.');
+	}
+
+	public function getVlrComissaoAttribute()
+	{
+    return number_format($this->attributes['vlr_comissao'], 2, ',', '.');
+	}
+
+	public function getVlrMargContribuicaoAttribute()
+	{
+    return number_format($this->attributes['vlr_marg_contribuicao'], 2, ',', '.');
+	}
+
+	public function getVlrCustoAttribute()
+	{
+    return number_format($this->attributes['vlr_custo'], 2, ',', '.');
+	}
+
+	public function getVlrCustoEstoqueAttribute()
+	{
+    return number_format($this->attributes['vlr_custo_estoque'], 2, ',', '.');
 	}
 
   public function getEstoqueAtualAttribute()

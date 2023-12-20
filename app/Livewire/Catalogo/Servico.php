@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Catalogo;
 
-use Livewire\Attributes\Rule;
 use App\Models\Catalogo\Servico as DBServico;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -19,87 +18,111 @@ class Servico extends Component
 
     // Serviço / Produto
     public $bd_tipo = 'Serviço';
-    #[Rule('required|min:3')]
     public $bd_nome;
-    #[Rule('required')]
     public $bd_id_categoria;
-    public $bd_ativo;
+    public $bd_ativo = 1;
     public $bd_descricao;
 
-    public $bd_marca = 14;
+    public $bd_marca;
     public $bd_id_fornecedor;
-    public $bd_unidade = 13;
-    public $bd_ncm_prod_serv = 19;
-    public $bd_cod_nota = 15;
-    public $bd_cod_barras = 16;
-    public $bd_estoque_min = 17;
-    public $bd_estoque_max = 18;
+    public $bd_unidade;
+    public $bd_ncm_prod_serv;
+    public $bd_cod_nota;
+    public $bd_cod_barras;
+    public $bd_estoque_min = 1;
+    public $bd_estoque_max = 10;
 
-    public $bd_duracao = 10;
+    public $bd_duracao = '01:00:00';
 
     // Valores
     public $bd_tipo_preco = 'Preço fixo';
-    public $bd_vlr_venda = '0,00';
+    public $bd_vlr_venda = 0;
 
-    public $bd_vlr_custo = '0,00';
-    public $bd_vlr_frete = '0,00';
-    public $bd_vlr_impostos = '0,00';
-    public $bd_cst_adicional = '0,00';
-    public $bd_vlr_nota = '0,00';
-
-    public $bd_tipo_comissao = 'Valor fixo';
-    public $bd_prc_comissao = 8;
-    public $bd_vlr_comissao = '0,00';
-
-    public $bd_ipi_prod_serv = 20;
-    public $bd_icms_prod_serv = 21;
-    public $bd_simples_prod_serv = 22;
-
+    public $bd_vlr_frete           = 0;
+    public $bd_vlr_impostos        = 0;
+    public $bd_vlr_cst_adicional   = 0;
+    public $bd_vlr_nota            = 0;
+    public $bd_vlr_custo           = 'R$ 0,00';
+    public $bd_vlr_custo_comissao  = 0;
+    
+    public $bd_tipo_comissao = '% Venda';
+    public $bd_prc_comissao = 0;
+    public $bd_vlr_comissao = 0;
+    
+    // Impostos
+    public $bd_ipi_prod_serv     = 0;
+    public $bd_icms_prod_serv    = 0;
+    public $bd_simples_prod_serv = 0;
+    
     // Programa de fidelidade
-    public $bd_fidelidade_pontos_ganhos = 11;
-    public $bd_fidelidade_pontos_necessarios = 12;
+    public $bd_fidelidade_pontos_ganhos      = 0;
+    public $bd_fidelidade_pontos_necessarios = 0;
 
     // Indicadores
     public $bd_tempo_retorno = 9;
     public $bd_consumo_medio = 32;
     public $bd_curva_abc = 34;
     public $bd_cmv_prod_serv = 33;
-    public $bd_vlr_marg_contribuicao = '0,00';
+    public $bd_vlr_marg_contribuicao = 0;
     public $bd_marg_contribuicao = 28;
     public $bd_margem_custo = 31;
-    public $bd_vlr_custo_estoque = '0,00';
+    public $bd_vlr_custo_estoque = 0;
     public $bd_status = 37;
 
-    // Indicadores
-    #[Rule('image|nullable')]
+    // Foto
     public $foto;
 
     public $servico = [];
-    public $modalType;
     public $servicoId;
+    public $modal_type;
+    public $tab_active = 'tab-servico';
+    
+    
+    protected $listeners = ['chamarMetodo' => 'deletar'];
 
-    protected $listeners = ['chamarMetodo' => 'remove'];
+    protected $rules = [
+        'bd_tipo' => 'required|min:3',
+        'bd_nome' => 'required',
+        'foto'    => 'image|nullable',
+    ];
 
-    public function create()
+    public function openModal($type)
+    {
+        $this->modal_type = $type;
+        $this->dispatch('mask:apply');
+        $this->resetValidation();
+    }
+    
+    public function tabActive($tab_active)
+    {
+        $this->tab_active = $tab_active;
+    }
+    
+    public function closeModal()
+    {
+        $this->modal_type = '';
+    }
+    
+    public function updatedBdTipoComissao()
+    {
+        $this->dispatch('mask:apply');
+    }
+    
+    public function atualizarValores()
+    {
+        // $this->bd_vlr_venda = 'R$ ' . number_format((str_replace(['.', ','], ['', '.'], $this->bd_vlr_venda)), 2, ',', '.');
+        $this->bd_vlr_custo = 'R$ ' . number_format((str_replace(['.', ','], ['', '.'], $this->bd_vlr_frete) + str_replace(['.', ','], ['', '.'], $this->bd_vlr_impostos) +  str_replace(['.', ','], ['', '.'], $this->bd_vlr_custo_comissao) + str_replace(['.', ','], ['', '.'], $this->bd_vlr_cst_adicional) + str_replace(['.', ','], ['', '.'], $this->bd_vlr_nota)), 2, ',', '.');
+    }
+
+    public function criar()
     {
         $this->reset();
         $this->openModal('criar');
     }
 
-    public function openModal($type)
+    public function gravar()
     {
-        $this->modalType = $type;
-        $this->resetValidation();
-    }
-
-    public function closeModal()
-    {
-        $this->modalType = '';
-    }
-
-    public function store()
-    {
-        // $this->validate();
+        $this->validate();
 
         $servico = DBServico::create([
             'nome'                          => $this->bd_nome,
@@ -108,7 +131,8 @@ class Servico extends Component
             'id_categoria'                  => $this->bd_id_categoria,
             'tipo_preco'                    => $this->bd_tipo_preco,
             'vlr_venda'                     => $this->bd_vlr_venda,
-            'cst_adicional'                 => $this->bd_cst_adicional,
+            'vlr_cst_adicional'                 => $this->bd_vlr_cst_adicional,
+            'tipo_comissao'                 => $this->bd_tipo_comissao,
             'prc_comissao'                  => $this->bd_prc_comissao,
             'tempo_retorno'                 => $this->bd_tempo_retorno,
             'duracao'                       => $this->bd_duracao,
@@ -124,10 +148,12 @@ class Servico extends Component
             'ipi_prod_serv'                 => $this->bd_ipi_prod_serv,
             'icms_prod_serv'                => $this->bd_icms_prod_serv,
             'simples_prod_serv'             => $this->bd_simples_prod_serv,
-            'vlr_mercado'                   => $this->bd_vlr_mercado,
+            // 'vlr_mercado'                   => $this->bd_vlr_mercado,
             'vlr_nota'                      => $this->bd_vlr_nota,
             'vlr_frete'                     => $this->bd_vlr_frete,
+            'vlr_impostos'                  => $this->bd_vlr_impostos,
             'vlr_comissao'                  => $this->bd_vlr_comissao,
+            'vlr_custo_comissao'            => $this->bd_vlr_custo_comissao,
             'vlr_marg_contribuicao'         => $this->bd_vlr_marg_contribuicao,
             'marg_contribuicao'             => $this->bd_marg_contribuicao,
             'vlr_custo'                     => $this->bd_vlr_custo,
@@ -152,7 +178,7 @@ class Servico extends Component
 
         $this->dispatch('swal:alert', [
             'title'     => 'Criado!',
-            'text'      => 'Servico cadastrada com sucesso!',
+            'text'      => 'Serviço cadastrada com sucesso!',
             'icon'      => 'success',
             'iconColor' => 'green',
         ]);
@@ -161,25 +187,19 @@ class Servico extends Component
         $this->closeModal();
     }
 
-    public function show($id)
-    {
-        $this->servico = DBServico::findOrFail($id);
-
-        $this->openModal('mostrar');
-    }
-
-    public function edit($id)
+    public function editar($id)
     {
         $servico = DBServico::findOrFail($id);
-        $this->servicoId = $id;
-        $this->foto      = $servico->srcFoto;
+        $this->servicoId                        = $id;
+        $this->foto                             = $servico->srcFoto;
         $this->bd_nome                          = $servico->nome;
         $this->bd_tipo                          = $servico->tipo;
         $this->bd_ativo                         = $servico->ativo;
         $this->bd_id_categoria                  = $servico->id_categoria;
         $this->bd_tipo_preco                    = $servico->tipo_preco;
         $this->bd_vlr_venda                     = $servico->vlr_venda;
-        $this->bd_cst_adicional                 = $servico->cst_adicional;
+        $this->bd_vlr_cst_adicional                 = $servico->vlr_cst_adicional;
+        $this->bd_tipo_comissao                 = $servico->tipo_comissao;
         $this->bd_prc_comissao                  = $servico->prc_comissao;
         $this->bd_tempo_retorno                 = $servico->tempo_retorno;
         $this->bd_duracao                       = $servico->duracao;
@@ -195,10 +215,12 @@ class Servico extends Component
         $this->bd_ipi_prod_serv                 = $servico->ipi_prod_serv;
         $this->bd_icms_prod_serv                = $servico->icms_prod_serv;
         $this->bd_simples_prod_serv             = $servico->simples_prod_serv;
-        $this->bd_vlr_mercado                   = $servico->vlr_mercado;
+        // $this->bd_vlr_mercado                   = $servico->vlr_mercado;
         $this->bd_vlr_nota                      = $servico->vlr_nota;
         $this->bd_vlr_frete                     = $servico->vlr_frete;
+        $this->bd_vlr_impostos                  = $servico->vlr_impostos;
         $this->bd_vlr_comissao                  = $servico->vlr_comissao;
+        $this->bd_vlr_custo_comissao            = $servico->vlr_custo_comissao;
         $this->bd_vlr_marg_contribuicao         = $servico->vlr_marg_contribuicao;
         $this->bd_marg_contribuicao             = $servico->marg_contribuicao;
         $this->bd_vlr_custo                     = $servico->vlr_custo;
@@ -210,10 +232,12 @@ class Servico extends Component
         $this->bd_id_fornecedor                 = $servico->id_fornecedor;
         $this->bd_descricao                     = $servico->descricao;
         $this->bd_status                        = $servico->status;
+        
+        $this->atualizarValores();
         $this->openModal('editar');
     }
 
-    public function update()
+    public function atualizar()
     {
         if ($this->servicoId)
         {
@@ -225,7 +249,8 @@ class Servico extends Component
                 'id_categoria'                  => $this->bd_id_categoria,
                 'tipo_preco'                    => $this->bd_tipo_preco,
                 'vlr_venda'                     => $this->bd_vlr_venda,
-                'cst_adicional'                 => $this->bd_cst_adicional,
+                'vlr_cst_adicional'                 => $this->bd_vlr_cst_adicional,
+                'tipo_comissao'                 => $this->bd_tipo_comissao,
                 'prc_comissao'                  => $this->bd_prc_comissao,
                 'tempo_retorno'                 => $this->bd_tempo_retorno,
                 'duracao'                       => $this->bd_duracao,
@@ -241,10 +266,12 @@ class Servico extends Component
                 'ipi_prod_serv'                 => $this->bd_ipi_prod_serv,
                 'icms_prod_serv'                => $this->bd_icms_prod_serv,
                 'simples_prod_serv'             => $this->bd_simples_prod_serv,
-                'vlr_mercado'                   => $this->bd_vlr_mercado,
+                // 'vlr_mercado'                   => $this->bd_vlr_mercado,
                 'vlr_nota'                      => $this->bd_vlr_nota,
                 'vlr_frete'                     => $this->bd_vlr_frete,
+                'vlr_impostos'                  => $this->bd_vlr_impostos,
                 'vlr_comissao'                  => $this->bd_vlr_comissao,
+                'vlr_custo_comissao'            => $this->bd_vlr_custo_comissao,
                 'vlr_marg_contribuicao'         => $this->bd_vlr_marg_contribuicao,
                 'marg_contribuicao'             => $this->bd_marg_contribuicao,
                 'vlr_custo'                     => $this->bd_vlr_custo,
@@ -269,7 +296,7 @@ class Servico extends Component
 
             $this->dispatch('swal:alert', [
                 'title'     => 'Atualizado!',
-                'text'      => 'Servico atualizada com sucesso!',
+                'text'      => 'Serviço atualizada com sucesso!',
                 'icon'      => 'success',
                 'iconColor' => 'green',
             ]);
@@ -278,21 +305,72 @@ class Servico extends Component
             $this->reset();
         }
     }
+    
+    public function mostrar($id)
+    {        
+        $servico = DBServico::findOrFail($id);
+        $this->servico                          = $servico;
+        $this->servicoId                        = $id;
+        $this->foto                             = $servico->srcFoto;
+        $this->bd_nome                          = $servico->nome;
+        $this->bd_tipo                          = $servico->tipo;
+        $this->bd_ativo                         = $servico->ativo;
+        $this->bd_id_categoria                  = $servico->id_categoria;
+        $this->bd_tipo_preco                    = $servico->tipo_preco;
+        $this->bd_vlr_venda                     = $servico->vlr_venda;
+        $this->bd_vlr_cst_adicional                 = $servico->vlr_cst_adicional;
+        $this->bd_tipo_comissao                 = $servico->tipo_comissao;
+        $this->bd_prc_comissao                  = $servico->prc_comissao;
+        $this->bd_tempo_retorno                 = $servico->tempo_retorno;
+        $this->bd_duracao                       = $servico->duracao;
+        $this->bd_fidelidade_pontos_ganhos      = $servico->fidelidade_pontos_ganhos;
+        $this->bd_fidelidade_pontos_necessarios = $servico->fidelidade_pontos_necessarios;
+        $this->bd_unidade                       = $servico->unidade;
+        $this->bd_marca                         = $servico->marca;
+        $this->bd_cod_nota                      = $servico->cod_nota;
+        $this->bd_cod_barras                    = $servico->cod_barras;
+        $this->bd_estoque_min                   = $servico->estoque_min;
+        $this->bd_estoque_max                   = $servico->estoque_max;
+        $this->bd_ncm_prod_serv                 = $servico->ncm_prod_serv;
+        $this->bd_ipi_prod_serv                 = $servico->ipi_prod_serv;
+        $this->bd_icms_prod_serv                = $servico->icms_prod_serv;
+        $this->bd_simples_prod_serv             = $servico->simples_prod_serv;
+        // $this->bd_vlr_mercado                   = $servico->vlr_mercado;
+        $this->bd_vlr_nota                      = $servico->vlr_nota;
+        $this->bd_vlr_frete                     = $servico->vlr_frete;
+        $this->bd_vlr_impostos                  = $servico->vlr_impostos;
+        $this->bd_vlr_comissao                  = $servico->vlr_comissao;
+        $this->bd_vlr_custo_comissao            = $servico->vlr_custo_comissao;
+        $this->bd_vlr_marg_contribuicao         = $servico->vlr_marg_contribuicao;
+        $this->bd_marg_contribuicao             = $servico->marg_contribuicao;
+        $this->bd_vlr_custo                     = $servico->vlr_custo;
+        $this->bd_vlr_custo_estoque             = $servico->vlr_custo_estoque;
+        $this->bd_margem_custo                  = $servico->margem_custo;
+        $this->bd_consumo_medio                 = $servico->consumo_medio;
+        $this->bd_cmv_prod_serv                 = $servico->cmv_prod_serv;
+        $this->bd_curva_abc                     = $servico->curva_abc;
+        $this->bd_id_fornecedor                 = $servico->id_fornecedor;
+        $this->bd_descricao                     = $servico->descricao;
+        $this->bd_status                        = $servico->status;
+        
+        $this->atualizarValores();
+        $this->openModal('mostrar');
+    }
 
-    public function delete($id)
+    public function remover($id)
     {
         $servico = DBServico::find($id);
 
         $this->dispatch('swal:confirm', [
             'title'        => $servico->nome,
-            'text'         => 'Tem certeza que quer deletar a servico?',
+            'text'         => 'Tem certeza que quer deletar a serviço?',
             'icon'         => 'warning',
             'iconColor'    => 'orange',
             'idEvent'      => $servico->id,
         ]);
     }
 
-    public function remove($id)
+    public function deletar($id)
     {
         $servico = DBServico::find($id);
 
@@ -307,7 +385,7 @@ class Servico extends Component
 
         $this->dispatch('swal:alert', [
             'title'         => 'Deletado!',
-            'text'          => $texto ?? 'Servico deletada com sucesso!',
+            'text'          => $texto ?? 'Serviço deletada com sucesso!',
             'icon'          => 'success',
             'iconColor'     => 'green',
         ]);

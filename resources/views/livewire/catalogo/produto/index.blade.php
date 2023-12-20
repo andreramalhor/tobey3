@@ -17,16 +17,15 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <a class="btn btn-secondary btn-block btn-sm float-right" wire:click="create"><i class="fa fa-plus"></i> Novo produto</a>
+                        <a class="btn btn-secondary btn-block btn-sm float-right" wire:click="criar"><i class="fa fa-plus"></i> Novo produto</a>
                     </div>
                 </div>
                 <table class="table">
                     <thead class="table-dark">
                         <tr>
                             <th class="text-center">#</th>
-                            <th class="text-center">Tipo</th>
-                            <th class="text-center">Nome</th>
-                            <th class="text-center">Descrição</th>
+                            <th class="text-center"></th>
+                            <th class="text-left">Nome</th>
                             <th class="text-right"><i class="fas fa-ellipsis-h"></i></th>
                         </tr>
                     </thead>
@@ -34,9 +33,15 @@
                         @forelse ($produtos as $ciclo)
                         <tr wire:key="{{ $ciclo->id }}">
                             <td class="p-1 text-center">{{ $ciclo->id }}</td>
-                            <td class="p-1 text-center">{{ $ciclo->tipo }}</td>
-                            <td class="p-1 text-center">{{ $ciclo->nome }}</td>
-                            <td class="p-1 text-center">{{ $ciclo->descricao }}</td>
+                            <td class="p-1 text-center">
+                                <img class="direct-chat-img rounded-3" src="{{ $ciclo->src_foto }}">
+                            </td>
+                            <td class="p-1 text-left">{{ $ciclo->nome }}</td>
+                            <td class="p-1 text-left">
+                                {{-- @foreach($ciclo->kjahdkwkbewtoip->sortby('id') as $tipo)
+                                <small class="badge bg-{{ $tipo->color }}">{{ $tipo->nome }}</small>
+                                @endforeach --}}
+                            </td>
                             <td class="p-1 text-right">
                                 <x-icon.view click="{{ $ciclo->id }}" />
                                 &nbsp;
@@ -47,7 +52,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="5" class="text-center"><small>Não há produtos cadastradas</small></td>
+                            <td colspan="5" class="text-center"><small>Não há produtos cadastrados</small></td>
                         </tr>
                         @endforelse
                     </tbody>
@@ -60,6 +65,7 @@
             </div>
         </div>
     </div>
-    @include('livewire.catalogo.produto.adicionar')
-    @include('livewire.catalogo.produto.show')
+    @include('livewire.catalogo.produto.criar')
+    @include('livewire.catalogo.produto.editar')
+    @include('livewire.catalogo.produto.mostrar')
 </div>

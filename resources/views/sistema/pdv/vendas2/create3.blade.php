@@ -196,7 +196,7 @@
 //
 $(document).ready(function()
 {
-  $("[name='vlr_venda'], [name='vlr_custo'], [name='cst_adicional']").inputmask('decimal', {
+  $("[name='vlr_venda'], [name='vlr_custo'], [name='vlr_cst_adicional']").inputmask('decimal', {
     'alias': 'numeric',
     'groupSeparator': '.',
     'autoGroup': true,
