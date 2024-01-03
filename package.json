@@ -19,6 +19,8 @@
         "vite": "^4.4.11"
     },
     "dependencies": {
+        "@fullcalendar/core": "^6.1.10",
+        "@fullcalendar/daygrid": "^6.1.10",
         "alpinejs": "^3.13.1"
     }
 }

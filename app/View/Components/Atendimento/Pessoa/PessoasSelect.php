@@ -15,11 +15,11 @@ class PessoasSelect extends Component
     public $sinal;
     public $selecionado;
 
-    public function __construct($filtro=null, $sinal="=", $selecionado="=")
+    public function __construct($filtro=null, $sinal="=", $selecionado=null)
     {
-        $this->filtro = $filtro;
-        $this->sinal  = $sinal;
-        $this->sinal  = $selecionado;
+        $this->filtro       = $filtro;
+        $this->sinal        = $sinal;
+        $this->selecionado  = $selecionado;
     }
 
     public function pessoas()

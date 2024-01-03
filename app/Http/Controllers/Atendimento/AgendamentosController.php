@@ -5,10 +5,81 @@ namespace App\Http\Controllers\Atendimento;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Models\Atendimento\Agendamento;
+use App\Models\Atendimento\AgendaOrdem as DBAgendaOrdem;
+use App\Models\Atendimento\Agendamento as DBAgendamento;
 
 class AgendamentosController extends Controller
 {
+	public function resources()
+	{
+		return DBAgendaOrdem::
+							select('ordem', 'area', 'id_pessoa' )->
+							where('auth_user', '=', auth()->User()->id)->
+							with('oewoekdwjzsdlkd')->
+							get()->
+							map(function (DBAgendaOrdem $model)
+							{
+								return [ 
+									'id'       => $model->id_pessoa,
+									'ordem'    => $model->ordem,
+									'area'     => $model->area,
+									'title'    => $model->oewoekdwjzsdlkd->apelido,
+									'src_foto' => $model->oewoekdwjzsdlkd->src_foto,
+								];
+							});
+	}
+
+	public function events()
+    {
+        $start  = (!empty($request->start)) ? ($request->start) : ('');
+        $end    = (!empty($request->end)) ? ($request->end) : ('');
+        
+        $start  = \Carbon\Carbon::today()->startOfDay();
+        $end    = \Carbon\Carbon::today()->endOfDay();
+        
+        $returnedColumns = [
+            'id',
+            'start',
+            'end',
+            'id_cliente',
+            'id_profexec',
+            'id_servprod',
+            'id_comanda',
+            'valor',
+            'obs',
+            'status',
+            // 'title',
+            // 'resourceId'
+        ];
+
+		return DBAgendamento::
+                            whereBetween('start', [ $start, $end ])->
+                            where('id_profexec', '=', [ array_column($this->resources()->toArray(), 'id') ])->
+                            get($returnedColumns);
+							// ->
+							// map(function (DBAgendamento $model)
+							// {
+								// 	return [ 
+									// 		'id'       => $model->id_pessoa,
+									// 		'ordem'    => $model->ordem,
+									// 		'area'     => $model->area,
+									// 		'title'    => $model->oewoekdwjzsdlkd->apelido,
+									// 		'src_foto' => $model->oewoekdwjzsdlkd->src_foto,
+								// 	];
+							// });
+	}
+
+	public function agendamentos_index()
+	{
+		$resources = $this->resources();
+		$events    = $this->events();
+
+		return view('sistema/atendimentos/agendamentos/index', [
+			'resources' => $resources,
+			'events'    => $events,
+		]);
+	}
+	
   public function agendamentos_widget()
   {
     $start = \Carbon\Carbon::today()->startOfMonth();
@@ -117,14 +188,14 @@ class AgendamentosController extends Controller
       $agendas = $this->repository->paginate();
     }
 
-    return view('sistema.atendimentos.agendamentos.list', [
+    return view('sistema/atendimentos/agendamentos/list', [
      'agendas'      =>   $agendas,
     ]);
   }
 
   public function create()
   {
-    return view('sistema.atendimentos.agendamentos.create');
+    return view('sistema/atendimentos/agendamentos/create');
   }
 
   // public function store(AgendaRequest $request)
@@ -146,7 +217,7 @@ class AgendamentosController extends Controller
   {
     $agenda = $this->repository->find($id);
 
-    return view('sistema.atendimentos.agendamentos.show', [
+    return view('sistema/atendimentos/agendamentos/show', [
       'agenda' => $agenda,
     ]);
   }
@@ -155,7 +226,7 @@ class AgendamentosController extends Controller
   {
     $agenda = $this->repository->find($id);
 
-    return view('sistema.atendimentos.agendamentos.edit', [
+    return view('sistema/atendimentos/agendamentos/edit', [
       'agenda' => $agenda,
     ]);
   }
@@ -212,7 +283,7 @@ class AgendamentosController extends Controller
   {
     $dados = $this->repository->Aniversariantes();
 
-    return view('sistema.atendimentos.agendas', [
+    return view('sistema/atendimentos/agendas', [
      'dados'   =>   $dados,
     ]);
   }
@@ -232,7 +303,7 @@ class AgendamentosController extends Controller
     $clientes       = $this->repository->clientes();
     $profissionais  = $this->repository->profissionais();
 
-    return view('sistema.atendimentos.agendamentos.manicures',[
+    return view('sistema/atendimentos/agendamentos/manicures',[
       'agendamentos'    => $agendamentos,
       'clientes'        => $clientes,
       'profissionais'   => $profissionais,
@@ -294,7 +365,7 @@ class AgendamentosController extends Controller
   {
     $agendamentos = Agendamento::orderBy('created_at', 'desc')->paginate(500);
 
-    return view('sistema.atendimentos.agendamentos.tabela',[
+    return view('sistema/atendimentos/agendamentos/tabela',[
       'agendamentos'    => $agendamentos,
     ]);
   }

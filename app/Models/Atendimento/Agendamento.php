@@ -71,6 +71,16 @@ class Agendamento extends Model
   {
     return $this->hasOne(Comissao::class, 'id_agendamento', 'id');
   }
+  
+  // AUXILIARES              ===========================================================================================
+  public static function procurar($pesquisa)
+  {
+    return empty($pesquisa)
+    ? static::query()
+    : static::query()->where('nome', 'LIKE', '%'.$pesquisa.'%')
+                     ->orWhere('id', 'LIKE', '%'.$pesquisa.'%');
+  }
+
 
 // MUTATORS         ===========================================================================================
   // public function setProfissaoAttribute($value)

@@ -1,6 +1,3 @@
-
-
-
 <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -8,7 +5,7 @@
             <div class="card-header">
                 <h3 class="card-title">Agendamentos</h3>
                 <div class="card-tools">
-                    @dd('controller', $resources, $events)
+                    {{-- @dd($resources, $events) --}}
                     <div class="btn-group">
                         @if(is_null(\Auth::User()->wuclsoqsdppaxmf) || is_null(\Auth::User()->wuclsoqsdppaxmf) || \Auth::User()->wuclsoqsdppaxmf->contains('nome', 'Gerente Administrativo'))
                         <a class="btn btn-sm btn-default" data-bs-toggle="modal" data-bs-target="#modal_profissionais_mostrar"><i class="fas fa-check"></i></a>
@@ -58,31 +55,27 @@
         // $('#duracao').val('hide');
         // $('#end').val('hide');
         // $('#valor').val('hide');
+        console.log($('#obs'))
         $('#obs').val('hide');
 
     });
-	
-	window.addEventListener('show-edit-student-modal', event =>{
-		$('#editStudentModal').modal('show');
-	});
-	
-	window.addEventListener('show-delete-confirmation-modal', event =>{
-		$('#deleteStudentModal').modal('show');
-	});
-	
-	window.addEventListener('show-view-student-modal', event =>{
-		$('#viewStudentModal').modal('show');
-	});
+
+    window.addEventListener('show-edit-student-modal', event =>{
+        $('#editStudentModal').modal('show');
+    });
+
+    window.addEventListener('show-delete-confirmation-modal', event =>{
+        $('#deleteStudentModal').modal('show');
+    });
+
+    window.addEventListener('show-view-student-modal', event =>{
+        $('#viewStudentModal').modal('show');
+    });
 </script>
 
 <script type="text/javascript"> let objCalendar; </script>
 <script>
 //
-document.addEventListener('livewire:init', function () 
-{
-	alert(555)
-});
-
 $('#data_x').datepicker({
     language: 'pt-BR', // define o idioma do datapicker
     format: 'dd/mm/yyyy', // define o formato da data
@@ -92,7 +85,14 @@ $('#data_x').datepicker({
     objCalendar.gotoDate(new Date(ev.date))
 });
 
+
 var calendarEl = document.getElementById('calendar')
+
+var events = [
+                { title: 'Evento 1', start: '2023-01-01', resourceId: 1 },
+                { title: 'Evento 2', start: '2023-01-02', end: '2023-01-04', resourceId: 2 },
+                { title: 'Evento 3', start: '2023-01-03', resourceId: 3 },
+            ];
 
 var calendar = new FullCalendar.Calendar(calendarEl,
 {
@@ -178,9 +178,9 @@ var calendar = new FullCalendar.Calendar(calendarEl,
     allDaySlot: false,
     
     resourceOrder: 'area,ordem',
-    // events: events,
+    events: events,
     resources: @json($resources), // Inclui a lista de recursos no formato JSON
-    events: @json($events), // Inclui a lista de eventos no formato JSON
+    // events: @json($events), // Inclui a lista de eventos no formato JSON
 
     resourceLabelContent: (info) =>
     {
@@ -333,7 +333,7 @@ var calendar = new FullCalendar.Calendar(calendarEl,
     function agendamentos_criar(informacoes)
     {
         alert(12121);
-        Livewire.dispatch('criar', { informacoes : informacoes })
+        // Livewire.dispatch('Atendimento.Agendamento', { postId: 2 })
         // Livewire.dispatch('criar', { informacoes : informacoes }).to('agendamento.criar');
     }
 

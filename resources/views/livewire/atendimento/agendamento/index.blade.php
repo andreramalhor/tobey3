@@ -8,7 +8,7 @@
             <div class="card-header">
                 <h3 class="card-title">Agendamentos</h3>
                 <div class="card-tools">
-                    @dd('controller', $resources, $events)
+                    {{-- @dd('livewire', $resources, $events) --}}
                     <div class="btn-group">
                         @if(is_null(\Auth::User()->wuclsoqsdppaxmf) || is_null(\Auth::User()->wuclsoqsdppaxmf) || \Auth::User()->wuclsoqsdppaxmf->contains('nome', 'Gerente Administrativo'))
                         <a class="btn btn-sm btn-default" data-bs-toggle="modal" data-bs-target="#modal_profissionais_mostrar"><i class="fas fa-check"></i></a>

@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Livewire\Atendimento\Pessoa;
+use App\Livewire\Atendimento\{Pessoa, Agendamento};
 use App\Livewire\Catalogo\{Categoria, Servico, Produto, Compra};
 use App\Livewire\Comercial\Lead;
 use App\Livewire\Comercial\Lead\{Index, Criar, Empresa, Atender, Dashboard, Comissao};
@@ -16,7 +16,7 @@ use App\Livewire\Counter;
 
 
 use App\Http\Controllers\pdv\{CaixasController, VendasController, VendaController};
-use App\Http\Controllers\Atendimento\{PessoasController, AgendaController, AgendamentosController};
+use App\Http\Controllers\Atendimento\{PessoasController, AgendamentosController};
 use App\Http\Controllers\Configuracao\{ContabilController, ComissaoController, SistemaController, MensagemController};
 use App\Http\Controllers\Contabilidade\{ContasController, DREController, FluxoCaixaController};
 use App\Http\Controllers\Comercial\{ComercialController, CRMController, LeadsController, PortfolioController};
@@ -55,6 +55,7 @@ Route::group(['middleware' => 'auth', 'prefix' => '/atendimento'], function()
 {
     Route::get('/pessoas',              Pessoa::class)              ->name('atd.pessoas');
     Route::get('/clientes',             Pessoa::class)              ->name('atd.clientes');
+    Route::get('/agendas',              Agendamento::class)         ->name('atd.agendamentos');
 
     // Route::get('/clientes', Pessoa::class)->name('atd.clientes');
 });
@@ -916,38 +917,39 @@ Route::middleware([
             Route::delete('/tipos/excluir/{id}',                      [PessoasController::class, 'tipos_excluir'])                 ->name('atd.tipos.excluir')                  ->middleware('auth');
     
     
-            Route::get('/agendas',                                    [PessoasController::class, 'agendamentos'])                  ->name('atd.agendamentos')                  ->middleware('auth');
-            Route::get('/agendas/planilhar',                          [PessoasController::class, 'agendamentos_planilhar'])        ->name('atd.agendamentos.planilhar')        ->middleware('auth');
-            Route::get('/agendas/tabelar',                            [PessoasController::class, 'agendamentos_tabelar'])          ->name('atd.agendamentos.tabelar')          ->middleware('auth');
-            Route::get('/agendas/tabelar2',                            [PessoasController::class, 'agendamentos_tabelar2'])        ->name('atd.agendamentos.tabelar2')          ->middleware('auth');
-            Route::get('/agendas/mostrar/{id}',                       [PessoasController::class, 'agendamentos_mostrar'])          ->name('atd.agendamentos.mostrar')          ->middleware('auth');
-            Route::get('/agendas/adicionar',                          [PessoasController::class, 'agendamentos_adicionar'])        ->name('atd.agendamentos.adicionar')        ->middleware('auth');
-            Route::get('/agendas/adicionar_l',                        [PessoasController::class, 'agendamentos_adicionar_l'])      ->name('atd.agendamentos.adicionar_l')      ->middleware('auth');
-            Route::post('/agendas/criar',                             [PessoasController::class, 'agendamentos_criar'])            ->name('atd.agendamentos.criar')            ->middleware('auth');
-            Route::post('/agendas/gravar',                            [PessoasController::class, 'agendamentos_gravar'])           ->name('atd.agendamentos.gravar')           ->middleware('auth');
-            Route::post('/agendas/gravar_lote',                       [PessoasController::class, 'agendamentos_gravar_lote'])      ->name('atd.agendamentos.gravar_lote')      ->middleware('auth');
-            Route::post('/agendas/avatar',                            [PessoasController::class, 'agendamentos_avatar'])           ->name('atd.agendamentos.avatar')           ->middleware('auth');
-            Route::post('/agendas/avatar/remove',                     [PessoasController::class, 'agendamentos_avatar_remove'])    ->name('atd.agendamentos.avatar_remove')    ->middleware('auth');
-            Route::any('/agendas/validar/{id}',                       [PessoasController::class, 'agendamentos_validar'])          ->name('atd.agendamentos.validar')          ->middleware('auth');
-            Route::get('/agendas/editar/{id}',                        [PessoasController::class, 'agendamentos_editar'])           ->name('atd.agendamentos.editar')           ->middleware('auth');
-            Route::put('/agendas/atualizar/{id}',                     [PessoasController::class, 'agendamentos_atualizar'])        ->name('atd.agendamentos.atualizar')        ->middleware('auth');
-            Route::delete('/agendas/excluir/{id}',                    [PessoasController::class, 'agendamentos_excluir'])          ->name('atd.agendamentos.excluir')          ->middleware('auth');
-            Route::post('/agendas/restaurar/{id}',                    [PessoasController::class, 'agendamentos_restaurar'])        ->name('atd.agendamentos.restaurar')        ->middleware('auth');
+            // Route::get('/agendas',                                    [PessoasController::class, 'agendamentos'])                  ->name('atd.Xagendamentos')                  ->middleware('auth');
+            // Route::get('/agendas',                                    [AgendamentosController::class, 'agendamentos_index'])       ->name('atd.agendamentos')                  ->middleware('auth');
+            Route::get('/agendas/planilhar',                          [PessoasController::class, 'agendamentos_planilhar'])        ->name('atd.Xagendamentos.planilhar')        ->middleware('auth');
+            Route::get('/agendas/tabelar',                            [PessoasController::class, 'agendamentos_tabelar'])          ->name('atd.Xagendamentos.tabelar')          ->middleware('auth');
+            Route::get('/agendas/tabelar2',                            [PessoasController::class, 'agendamentos_tabelar2'])        ->name('atd.Xagendamentos.tabelar2')          ->middleware('auth');
+            Route::get('/agendas/mostrar/{id}',                       [PessoasController::class, 'agendamentos_mostrar'])          ->name('atd.Xagendamentos.mostrar')          ->middleware('auth');
+            Route::get('/agendas/adicionar',                          [PessoasController::class, 'agendamentos_adicionar'])        ->name('atd.Xagendamentos.adicionar')        ->middleware('auth');
+            Route::get('/agendas/adicionar_l',                        [PessoasController::class, 'agendamentos_adicionar_l'])      ->name('atd.Xagendamentos.adicionar_l')      ->middleware('auth');
+            Route::post('/agendas/criar',                             [PessoasController::class, 'agendamentos_criar'])            ->name('atd.Xagendamentos.criar')            ->middleware('auth');
+            Route::post('/agendas/gravar',                            [PessoasController::class, 'agendamentos_gravar'])           ->name('atd.Xagendamentos.gravar')           ->middleware('auth');
+            Route::post('/agendas/gravar_lote',                       [PessoasController::class, 'agendamentos_gravar_lote'])      ->name('atd.Xagendamentos.gravar_lote')      ->middleware('auth');
+            Route::post('/agendas/avatar',                            [PessoasController::class, 'agendamentos_avatar'])           ->name('atd.Xagendamentos.avatar')           ->middleware('auth');
+            Route::post('/agendas/avatar/remove',                     [PessoasController::class, 'agendamentos_avatar_remove'])    ->name('atd.Xagendamentos.avatar_remove')    ->middleware('auth');
+            Route::any('/agendas/validar/{id}',                       [PessoasController::class, 'agendamentos_validar'])          ->name('atd.Xagendamentos.validar')          ->middleware('auth');
+            Route::get('/agendas/editar/{id}',                        [PessoasController::class, 'agendamentos_editar'])           ->name('atd.Xagendamentos.editar')           ->middleware('auth');
+            Route::put('/agendas/atualizar/{id}',                     [PessoasController::class, 'agendamentos_atualizar'])        ->name('atd.Xagendamentos.atualizar')        ->middleware('auth');
+            Route::delete('/agendas/excluir/{id}',                    [PessoasController::class, 'agendamentos_excluir'])          ->name('atd.Xagendamentos.excluir')          ->middleware('auth');
+            Route::post('/agendas/restaurar/{id}',                    [PessoasController::class, 'agendamentos_restaurar'])        ->name('atd.Xagendamentos.restaurar')        ->middleware('auth');
     
-            Route::get('/agendas/modal/{tipo}',                       [PessoasController::class, 'agendamentos_modal'])            ->name('atd.agendamentos.restaurar')        ->middleware('auth');
-            Route::get('/agendas/fixas',                              [PessoasController::class, 'agendamentos_fixas'])            ->name('atd.agendamentos.fixas')            ->middleware('auth');
-            Route::post('/agendas/fixas/deletar',                     [PessoasController::class, 'agendamentos_fixas_deletar'])    ->name('atd.agendamentos.fixas_deletar')    ->middleware('auth');
+            Route::get('/agendas/modal/{tipo}',                       [PessoasController::class, 'agendamentos_modal'])            ->name('atd.Xagendamentos.restaurar')        ->middleware('auth');
+            Route::get('/agendas/fixas',                              [PessoasController::class, 'agendamentos_fixas'])            ->name('atd.Xagendamentos.fixas')            ->middleware('auth');
+            Route::post('/agendas/fixas/deletar',                     [PessoasController::class, 'agendamentos_fixas_deletar'])    ->name('atd.Xagendamentos.fixas_deletar')    ->middleware('auth');
     
     
-            Route::get('/agendas/carregar',                           [PessoasController::class, 'agendamentos_carregar'])         ->name('atd.agendamentos.carregar');
-            Route::get('/agendamentos/meus',                          [PessoasController::class, 'agendamentos_meus'])             ->name('atd.agendamentos.meus');
+            Route::get('/agendas/carregar',                           [PessoasController::class, 'agendamentos_carregar'])         ->name('atd.Xagendamentos.carregar');
+            Route::get('/agendamentos/meus',                          [PessoasController::class, 'agendamentos_meus'])             ->name('atd.Xagendamentos.meus');
             Route::get('/pessoas/agenda/minha',                       [PessoasController::class, 'pessoas_agenda_minha'])          ->name('atd.pessoas.agenda_minha')            ->middleware('auth');
             Route::put('/atualizar',                                  [AgendaController::class, 'agendas_update'])                  ->name('agenda.update');
             Route::get('/profissionalProduto/{id}',                   [PessoasController::class, 'profissionalProduto'])            ->name('agenda.profissionalProduto');
     
     
-            Route::get('/agendamentos/widget',                        [AgendamentosController::class, 'agendamentos_widget'])       ->name('atd.agendamentos.widget')             ->middleware('auth');
-            Route::any('/agendamentos/widget',                        [AgendamentosController::class, 'agendamentos_semana_widget'])->name('atd.agendamentos.semana_widget')      ->middleware('auth');
+            Route::get('/agendamentos/widget',                        [AgendamentosController::class, 'agendamentos_widget'])       ->name('atd.Xagendamentos.widget')             ->middleware('auth');
+            Route::any('/agendamentos/widget',                        [AgendamentosController::class, 'agendamentos_semana_widget'])->name('atd.Xagendamentos.semana_widget')      ->middleware('auth');
     
         });
     
