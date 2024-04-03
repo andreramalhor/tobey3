@@ -3,14 +3,17 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Livewire\Atendimento\{Pessoa, Agendamento};
+use App\Livewire\Cadastro\{Condominio};
+use App\Livewire\Cadastro\Condominio\Condominioindex;
 use App\Livewire\Catalogo\{Categoria, Servico, Produto, Compra};
 use App\Livewire\Comercial\Lead;
 use App\Livewire\Comercial\Lead\{Index, Criar, Empresa, Atender, Dashboard, Comissao};
 use App\Livewire\Financeiro\{Lancamento, Banco};
-use App\Livewire\Financeiro\Lancamento\{Lancamentodashboard, Lancamentocriar, Lancamentolistar};
+use App\Livewire\Financeiro\Lancamento\{Lancamentodashboard, Lancamentocriar, Lancamentolistar, Lancamentostore};
 use App\Livewire\Ferramenta\Kanban\{Kanbancriar, Kanbanlistar};
 use App\Livewire\Ferramenta\Todo\{Todoarchive, Todoedit, Todoshow, Todolist};
 use App\Livewire\Configuracao\{Usuario, Sistema};
+use App\Livewire\pdv\{Caixa};
 use App\Livewire\StudentsComponent;
 use App\Livewire\Counter;
 
@@ -45,10 +48,16 @@ use App\Http\Controllers\Cadastro\{CatalogoController, ServicosProdutosControlle
 Route::get('students', StudentsComponent::class);
 Route::get('/comercial/dashboard', Dashboard::class)->name('com.leads.dashboard');
 
+Route::get('/home', Condominioindex::class)->name('home');
 
 Route::get('/', function ()
 {
     return redirect()->route('login');
+});
+
+Route::group(['middleware' => 'auth', 'prefix' => '/condominios'], function()
+{
+    Route::get('/',              Condominio::class)              ->name('condominios');
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => '/atendimento'], function()
@@ -83,6 +92,7 @@ Route::group(['middleware' => 'auth', 'prefix' => '/comercial'], function()
 
 Route::group(['middleware' => 'auth', 'prefix' => '/financeiro'], function()
 {
+    Route::get('/Lancamentostore',          Lancamentostore::class)          ->name('Lancamentostore');
     Route::get('/lancamentos',          Lancamento::class)          ->name('fin.lancamentos');
     Route::get('/bancos',               Banco::class)               ->name('fin.bancos');
     Route::get('/dashoboard',           Lancamentodashboard::class) ->name('fin.lancamentos.dashboard');
@@ -100,6 +110,11 @@ Route::group(['middleware' => 'auth', 'prefix' => '/ferramenta'], function()
     Route::get('/todo/todo/{id}',       Todoshow::class)            ->name('todo');
     // Route::get('/todo/todo/{id}/edit',  Todolist::class)            ->name('todo.edit');
     Route::get('/todo',                 Todolist::class)            ->name('fer.todo.listar');
+});
+
+Route::group(['middleware' => 'auth', 'prefix' => '/pdv'], function()
+{
+    Route::get('/caixas',              Caixa::class)                ->name('pdv.caixas');
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => '/configuracao'], function()
@@ -796,7 +811,7 @@ Route::middleware([
             Route::post('/caixa/procurar',                           [CaixasController::class, 'procurar'])                                 ->name('caixa.procurar')                      ->middleware('auth');
             
     
-            Route::get('/caixas',                                     [CaixasController::class, 'caixas'])                                  ->name('pdv.caixas')                            ->middleware('auth');
+            // Route::get('/caixas',                                     [CaixasController::class, 'caixas'])                                  ->name('pdv.caixas')                            ->middleware('auth');
             Route::any('/caixas/tabelar',                             [CaixasController::class, 'caixas_tabelar'])                          ->name('pdv.caixas.tabelar')                    ->middleware('auth');
             Route::get('/caixas/mostrar/{id}',                        [CaixasController::class, 'caixas_mostrar'])                          ->name('pdv.caixas.mostrar')                    ->middleware('auth');
             Route::get('/caixas/criar',                               [CaixasController::class, 'caixas_adicionar'])                        ->name('pdv.caixas.adicionar')                  ->middleware('auth');

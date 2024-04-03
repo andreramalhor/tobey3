@@ -143,4 +143,14 @@ class Caixa extends Model
           break;
     }
   }
+
+  // AUXILIARES              ===========================================================================================
+  public static function procurar($pesquisa)
+  {
+    return empty($pesquisa)
+    ? static::query()
+    : static::query()->where('nome', 'LIKE', '%'.$pesquisa.'%')
+                     ->orWhere('id', 'LIKE', '%'.$pesquisa.'%');
+  }
+
 }

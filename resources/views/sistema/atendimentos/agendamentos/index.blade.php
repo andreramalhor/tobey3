@@ -80,7 +80,7 @@
 //
 document.addEventListener('livewire:init', function () 
 {
-	alert(555)
+	alert(5255)
 });
 
 $('#data_x').datepicker({
@@ -332,7 +332,7 @@ var calendar = new FullCalendar.Calendar(calendarEl,
     
     function agendamentos_criar(informacoes)
     {
-        alert(12121);
+        alert(121821);
         Livewire.dispatch('criar', { informacoes : informacoes })
         // Livewire.dispatch('criar', { informacoes : informacoes }).to('agendamento.criar');
     }

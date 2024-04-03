@@ -151,13 +151,13 @@ class Tarefa extends Component
     public function render()
     {
         $tarefas = DBTarefa::
-                            where('id_responsavel', '=', auth()->user()->id)->
-                            orderByRaw("
-                                FIELD(status, 'Urgente') DESC,
-                                FIELD(status, 'Atrasado') DESC,
-                                FIELD(status, 'Aguardando') DESC,
-                                FIELD(status, 'Concluido') ASC
-                            ")->
+                            // where('id_responsavel', '=', auth()->user()->id)->
+                            // orderByRaw("
+                            //     FIELD(status, 'Urgente') DESC,
+                            //     FIELD(status, 'Atrasado') DESC,
+                            //     FIELD(status, 'Aguardando') DESC,
+                            //     FIELD(status, 'Concluido') ASC
+                            // ")->
                             get();
 
         return view('livewire/ferramenta/tarefa/index', [
