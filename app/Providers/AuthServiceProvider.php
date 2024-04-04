@@ -41,13 +41,13 @@ class AuthServiceProvider extends ServiceProvider
             });
         }
 
-        Gate::before(function(User $user)
-        {
-            // if ($user->isAdminSystem('Administrador do Sistema'))
-            if ($user->id == 2)
-            {
-                return true;
-            }
-        });
+        // Gate::before(function(User $user)
+        // {
+        //     // if ($user->isAdminSystem('Administrador do Sistema'))
+        //     if ($user->id == 2 || $user->id == 1)
+        //     {
+        //         return true;
+        //     }
+        // });
     }
 }

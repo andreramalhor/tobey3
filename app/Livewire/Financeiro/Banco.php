@@ -26,6 +26,12 @@ class Banco extends Component
     public $bd_chave_pix;
     public $bd_pix;
 
+
+    public $aux_periodo_inicial;
+    public $aux_periodo_final;
+    public $aux_extrato;
+    public $aux_saldo_inicial;
+
     public $modalType;
     public $banco;
 
@@ -165,12 +171,31 @@ class Banco extends Component
 
         $this->reset();
     }
+    
+    public function saldo_atual()
+    {
+        return 11111;
+    }
+
+    public function extrato($id)
+    {
+        $this->reset();
+
+        $this->aux_periodo_inicial = \Carbon\Carbon::now()->startOfMonth()->format('Y-m-d');
+        $this->aux_periodo_final   = \Carbon\Carbon::now()->format('Y-m-d');
+
+        $this->aux_saldo_inicial   = DBBanco::saldo($id, $this->aux_periodo_inicial);
+        
+        $this->aux_extrato = DBBanco::extrato($id, $this->aux_periodo_inicial, $this->aux_periodo_final);
+
+        $this->openModal('extrato');
+    }
 
     public function listar()
     {
         $bancos = DBBanco::
-                                procurar($this->pesquisar)->
-                                paginate(10);
+                        procurar($this->pesquisar)->
+                        paginate(10);
 
         return $bancos;
     }

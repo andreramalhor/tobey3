@@ -1,24 +1,26 @@
-<nav class="main-header navbar navbar-expand navbar-dark navbar-purple text-sm">
+<nav class="main-header navbar navbar-expand navbar-dark navbar-blue text-sm">
     <ul class="navbar-nav">
 
-        @if(1==2)
-            @can('Sócios')
+        {{-- @if(1==2) --}}
+            {{-- @can('Sócios') --}}
             <li class="nav-item">
                 <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
-            @endcan
-        @endif
+            {{-- @endcan --}}
+        {{-- @endif --}}
 
         <x-adminlte.layouts.navbar-links href="{{ route('dashboard') }}" icon="<i class='fa-solid fa-gauge-high'></i>" tooltip="Dashboard" />
 
-        @can('Sócios')
+        <x-adminlte.layouts.navbar-links href="{{ route('condominios') }}" icon="<i class='fa-regular fa-building'></i>" tooltip="Condomínios" />
+
+        {{-- @can('Sócios') --}}
         <!-- can('Lançamentos.Visualizar') -->
         <x-adminlte.layouts.navbar-links icon="<i class='fa-solid fa-users'></i>" tooltip="Atendimento">
             <li><a class="dropdown-item" href="{{ route('atd.pessoas') }}">Pessoas</a></li>
             <li><a class="dropdown-item" href="{{ route('atd.clientes') }}">Clientes</a></li>
             <li><a class="dropdown-item" href="{{ route('atd.agendamentos') }}">Agendamentos</a></li>
         </x-adminlte.layouts.navbar-links>
-        @endcan
+        {{-- @endcan --}}
 
         <x-adminlte.layouts.navbar-links icon="<i class='fa-solid fa-solid fa-book-open'></i>" tooltip="Catálogo">
             <li><a class="dropdown-item" href="{{ route('cat.categorias') }}">Categorias</a></li>
@@ -35,40 +37,41 @@
             <li><a class="dropdown-item" href="{{ route('com.leads') }}">Visualizar Leads</a></li>
         </x-adminlte.layouts.navbar-links>
 
-        @can('Sócios')
+        {{-- @can('Sócios') --}}
         <!-- can('Lançamentos.Visualizar') -->
         <x-adminlte.layouts.navbar-links icon="<i class='fa-solid fa-solid fa-dollar'></i>" tooltip="Financeiro">
+            <li><a class="dropdown-item" href="{{ route('fin.bancos') }}">Bancos</a></li>
             <li><a class="dropdown-item" href="{{ route('fin.lancamentos.dashboard') }}">Dashboard</a></li>
             <li><a class="dropdown-item" href="{{ route('fin.lancamentos.criar') }}">Lançamentos</a></li>
             <li><a class="dropdown-item" href="{{ route('fin.lancamentos') }}">Extrato de movimentações</a></li>
             <!-- <li><a class="dropdown-item" href="{{ route('fin.bancos') }}">Bancos</a></li> -->
         </x-adminlte.layouts.navbar-links>
-        @endcan
+        {{-- @endcan --}}
 
-        @can('Sócios')
+        {{-- @can('Sócios') --}}
         <!-- can('Lançamentos.Visualizar') -->
         <x-adminlte.layouts.navbar-links icon="<i class='fa-solid fa-solid fa-tools'></i>" tooltip="Ferramentas">
             <li><a class="dropdown-item" href="{{ route('fer.kanban.listar') }}">KanBan</a></li>
             {{-- <li><a class="dropdown-item" href="{{ route('fer.tarefas.listar') }}">Tarefas</a></li> --}}
         </x-adminlte.layouts.navbar-links>
-        @endcan
+        {{-- @endcan --}}
 
-        @can('Sócios')
+        {{-- @can('Sócios') --}}
         <!-- can('Lançamentos.Visualizar') -->
         <x-adminlte.layouts.navbar-links icon="<i class='fa-solid fa-solid fa-gear'></i>" tooltip="Configurações">
             <li><a class="dropdown-item" href="{{ route('cfg.sistema') }}">Opções de sistema</a></li>
             <li><a class="dropdown-item" href="{{ route('cfg.usuarios') }}">Usuários do sistema</a></li>
             {{-- <li><a class="dropdown-item" href="{{ route('fer.tarefas.listar') }}">Tarefas</a></li> --}}
         </x-adminlte.layouts.navbar-links>
-        @endcan
+        {{-- @endcan --}}
 
-        @can('Sócios')
+        {{-- @can('Sócios') --}}
         <!-- can('PDV.Visualizar') -->
         <x-adminlte.layouts.navbar-links icon="<i class='fa-solid fa-solid fa-store'></i>" tooltip="PDV">
             <li><a class="dropdown-item" href="{{ route('pdv.caixas') }}"><i class='fa-solid fa-solid fa-cash-register'></i> Caixas</a></li>
             <li><a class="dropdown-item" href="{{ route('pdv.vendas') }}"><i class='fa-solid fa-solid fa-receipt'></i> Vendas</a></li>
         </x-adminlte.layouts.navbar-links>
-        @endcan
+        {{-- @endcan --}}
     </ul>
 
 
@@ -83,12 +86,12 @@
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown user-menu">
             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" id="nav-link-menu-user" role="button" aria-expanded="false">
-                <img src="{{ auth()->user()->sdfjsefbdjfhufe->src_foto }}" class="user-image img-circle elevation-2">
+                <img src="{{ auth()->user()->sdfjsefbdjfhufe->src_foto ?? null }}" class="user-image img-circle elevation-2">
             </a>
             <ul class="dropdown-menu-lg dropdown-menu dropdown-menu-end" aria-labelledby="nav-link-menu-user">
                 <li class="user-header">
-                    <img src="{{ auth()->user()->sdfjsefbdjfhufe->src_foto }}" class="img-circle elevation-2 d-inline">
-                    <p class="">{{ auth()->user()->name }}<small>{{ auth()->user()->sdfjsefbdjfhufe->nome }}</small></p>
+                    <img src="{{ auth()->user()->sdfjsefbdjfhufe->src_foto ?? null }}" class="img-circle elevation-2 d-inline">
+                    <p class="">{{ auth()->user()->name ?? "NULO"}}<small>{{ auth()->user()->sdfjsefbdjfhufe->nome ?? "NULO" }}</small></p>
                 </li>
                 <li class="user-footer">
                     <a href="{{ route('profile.show') }}" class="btn btn-default btn-flat"><i class="fas fa-user"></i> Perfil</a>

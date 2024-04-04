@@ -1,4 +1,4 @@
-<aside class="main-sidebar elevation-4 sidebar-dark-purple">
+<aside class="main-sidebar elevation-4 sidebar-dark-blue">
     <a href="{{ route('dashboard') }}" class="brand-link">
         <img src="{{ url('stg/img/empresa/logo.png') }}" alt="Converta Soluções" class="brand-image" style="opacity: .8">
         <span class="brand-text font-weight-light">Converta Soluções</span>

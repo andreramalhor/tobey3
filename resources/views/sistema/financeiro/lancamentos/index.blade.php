@@ -1,6 +1,103 @@
-@extends('layouts.app')
+<div class="row">
+    
+    <x-slot name="title">
+        {{ __('Extrato de lançamentos') }}
+    </x-slot>
 
-@section('content')
+    <div class="col-md-12">
+        <div class="card">
+            <div class="overlay d-none" wire:loading.class="d-block"></div>
+            <div class="card-header">
+                <h3 class="card-title">Extrato de lançamentos {{ $modal_type ?? 'modaltype' }}</h3>
+            </div>
+            <div class="card-body p-0">
+                <div class="row p-2">
+                    <div class="offset-md-8 col-md-2">
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control float-right" placeholder="Pesquisar" wire:model.live="pesquisar">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <a class="btn btn-secondary btn-block btn-sm float-right" wire:click="criar"><i class="fa fa-plus"></i> Cadastrar novo condomínio</a>
+                    </div>
+                </div>
+                <table class="table">
+                    <thead class="table-dark">
+                        <tr>
+                            {{-- <th class="text-center"></th> --}}
+                            <th class="text-left">Condomínio</th>
+                            <th class="text-left">Endereço</th>
+                            <th class="text-left">Telefone</th>
+                            <th class="text-left">CNPJ</th>
+                            <th class="text-right"><i class="fas fa-ellipsis-h"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($lancamentos as $ciclo)
+                        <tr wire:key="{{ $ciclo->id }}">
+                            {{-- <td class="p-1 text-center">
+                                <img class="direct-chat-img" src="{{ $ciclo->src_foto  }}">
+                            </td> --}}
+                            <td class="p-1 text-left">{{ $ciclo->nome }}</td>
+                            <td class="p-1 text-left">{{ $ciclo->endereco }}</td>
+                            <td class="p-1 text-left">{{ $ciclo->fone }}</td>
+                            <td class="p-1 text-left">{{ $ciclo->cnpj }}</td>
+                            <td class="p-1 text-right">
+                                <x-icon.view click="{{ $ciclo->id }}" />
+                                &nbsp;
+                                <x-icon.edit click="{{ $ciclo->id }}" />
+                                &nbsp;
+                                <x-icon.delete click="{{ $ciclo->id }}" />
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="6" class="text-center"><small>Não há lançamentos cadastrados</small></td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer clearfix">
+                <div class="float-right">
+                    {{ $lancamentos->links() }}
+                </div>
+            </div>
+        </div>
+    </div>
+    @include('livewire.condominio.criar')
+    @include('livewire.condominio.editar')
+    @include('livewire.condominio.mostrar')
+</div>
+
+{{--
+
+    CRUD
+
+create    criar
+read      mostrar
+update    atualizar
+delete    deletar
+
+
+# create (criar)
+store (armazenar ou salvar)
+# edit (editar)
+update (atualizar)
+# show (mostrar ou exibir)
+destroy (destruir, remover ou deletar)
+
+--}}
+{{--
+
+extends('layouts.app')
+
+section('content')
 <section class="content-header p-0">
   <div class="container-fluid">
     <div class="row mb-2">
@@ -33,9 +130,11 @@
           <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-bs-toggle="dropdown" aria-expanded="false"></button>
           <div class="dropdown-menu dropdown-menu-end" role="menu" style="">
             {{-- <a class="dropdown-item" href="#" onclick="lancamentos_direcionar('desp_indicou_ganhou')">Campanha Indicou, Ganhou!</a> --}}
-            @if(isset(\Auth::User()->abcde->first()->id))
+{{--
+
+            if(isset(\Auth::User()->abcde->first()->id))
             <a class="dropdown-item" href="#" onclick="lancamentos_direcionar('desp_adiantamento')">Vale / Adiantamento</a>
-            @endif
+            endif
             <!-- <a class="dropdown-item" href="#" onclick="lancamentos_direcionar('aksjalks')">Vale</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#" onclick="lancamentos_direcionar('aksjalks')">Energia</a>
@@ -69,12 +168,14 @@
             &emsp;
             <div class="btn-group">
               <a class="btn btn-sm btn-default" data-bs-toggle="modal" data-bs-target="#modal_lancamentos_filtrar"><i class="fas fa-filter"></i></a>
-              @can('Lançamentos.Criar')
+              can('Lançamentos.Criar')
                 {{-- <a class="btn btn-sm btn-default" data-bs-toggle="modal" data-bs-target="#modal_lancamentos_adicionar"><i class="fas fa-plus"></i></a> --}}
                 {{-- <a class="btn btn-sm btn-default" href="{{ route('fin.lancamentos.adicionar', 'sajs') }}"><i class="fas fa-plus"></i></a> --}}
-              @endcan
+{{--
+
+              endcan
             </div>
-            @include('sistema.financeiro.lancamentos.auxiliares.mod_filtro')
+            include('sistema.financeiro.lancamentos.auxiliares.mod_filtro')
           </div>
         </div>
       </div>
@@ -95,10 +196,10 @@
     </div>
   </div>  
 </div>
-@include('includes.modal.modal-geral-1')
-@endsection
+include('includes.modal.modal-geral-1')
+endsection
 
-@section('js')
+section('js')
 <script type="text/javascript">
 $(window).on('shown.bs.modal', function()
 {
@@ -130,7 +231,7 @@ function lancamentos_direcionar(direcionamento)
     // console.log(response.data)
     $('#modal-geral-1').empty().append(response.data)
   })
-  @include('includes.catch', [ 'codigo_erro' => '9193146a' ] )
+  include('includes.catch', [ 'codigo_erro' => '9193146a' ] )
   .then( function()
   {
     $('#modal-geral-1').modal('show')
@@ -162,7 +263,7 @@ function lancamentos_tabelar(page)
     console.log(response.data)
     $('#tabela-lancamentos').empty().append(response.data)
   })
-  @include('includes.catch', [ 'codigo_erro' => '2721248a' ] )
+  include('includes.catch', [ 'codigo_erro' => '2721248a' ] )
   .then( function(response)
   {
     $('#overlay-lancamentos').hide()
@@ -182,7 +283,7 @@ function lancamentos_tabelar_confirmados(page)
     // console.log(response.data)
     $('#tabela-lancamentos-confirmados').empty().append(response.data)
   })
-@include('includes.catch', [ 'codigo_erro' => '1602498a' ] )
+include('includes.catch', [ 'codigo_erro' => '1602498a' ] )
   .then( function(response)
   {
     $('#overlay-lancamentos-2').hide()
@@ -202,7 +303,7 @@ function lancamentos_tabelar_confirmados(page)
       // console.log(response.data)
       toastrjs(response.data.type, response.data.message)
     })
-@include('includes.catch', [ 'codigo_erro' => '6391366a' ] )
+include('includes.catch', [ 'codigo_erro' => '6391366a' ] )
     .then( function(response)
     {
       lancamentos_tabelar()
@@ -226,7 +327,7 @@ function lancamentos_tabelar_confirmados(page)
       console.log(response.data)
       toastrjs(response.data.type, response.data.message)
     })
-@include('includes.catch', [ 'codigo_erro' => '3396740a' ] )
+include('includes.catch', [ 'codigo_erro' => '3396740a' ] )
     .then( function(response)
     {
       lancamentos_tabelar()
@@ -237,8 +338,9 @@ function lancamentos_tabelar_confirmados(page)
     })
   }
 
-  @if(session()->exists('resposta'))
+  if(session()->exists('resposta'))
   toastrjs('{{ session()->get('resposta')['type'] }}', '{{ session()->get('resposta')['message'] }}')
-  @endif
+  endif
 </script>
-@endsection
+endsection
+--}}

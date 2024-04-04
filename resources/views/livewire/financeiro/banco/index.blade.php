@@ -29,6 +29,7 @@
                             <th class="text-center">Nº Banco</th>
                             <th class="text-center">Nº Agência</th>
                             <th class="text-center">Nº Conta</th>
+                            <th class="text-right">Saldo Atual</th>
                             <th class="text-right"><i class="fas fa-ellipsis-h"></i></th>
                         </tr>
                     </thead>
@@ -40,7 +41,10 @@
                             <td class="p-1 text-center">{{ $ciclo->num_banco }}</td>
                             <td class="p-1 text-center">{{ $ciclo->num_agencia }}</td>
                             <td class="p-1 text-center">{{ $ciclo->num_conta }}</td>
+                            <td class="p-1 text-right">{{ number_format($ciclo->saldo($ciclo->id), 2, ',', '.') }}</td>
                             <td class="p-1 text-right">
+                                <x-icon.extrato click="{{ $ciclo->id }}" />
+                                &nbsp;
                                 <x-icon.view click="{{ $ciclo->id }}" />
                                 &nbsp;
                                 <x-icon.edit click="{{ $ciclo->id }}" />
@@ -67,4 +71,5 @@
     @include('livewire.financeiro.banco.editar')
     @include('livewire.financeiro.banco.mostrar')
     @include('livewire.financeiro.banco.remover')
+    @include('livewire.financeiro.banco.extrato')
 </div>

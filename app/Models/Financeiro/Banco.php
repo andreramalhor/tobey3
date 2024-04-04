@@ -44,7 +44,71 @@ class Banco extends Model
                       ->orWhere('num_conta', 'LIKE', '%'.$pesquisa.'%')
                       ->orWhere('id', 'LIKE', '%'.$pesquisa.'%');
   }
+
+  public static function saldo($id, $dt_limite = null)
+  {
+    $dt_limite = is_null($dt_limite) ? : $dt_limite;
+
+    $saldoInicial = Banco::find($id)->saldo_inicial;
+
+    $lancamentos = Lancamento::
+                            selectRaw("
+                              SUM(CASE WHEN tipo = 'D' THEN vlr_final ELSE 0 END) AS despesas,
+                              SUM(CASE WHEN tipo = 'R' THEN vlr_final ELSE 0 END) AS receitas,
+                              SUM(CASE WHEN tipo = 'T' AND vlr_final < 0 THEN vlr_final ELSE 0 END) AS transferencias_saidas,
+                              SUM(CASE WHEN tipo = 'T' AND vlr_final >= 0 THEN vlr_final ELSE 0 END) AS transferencias_entradas
+                            ")->
+                            where('id_banco', '=', $id)->
+                            where('status', '=', 'Confirmado')->
+                            whereDate('dt_recebimento', '<=', $dt_limite)->
+                            first();
+
+    $pagamentosVendas = Caixa::
+                            where('id_banco', '=', $id)->
+                            latest()->
+                            first();
+
+    // Obter recebimento em cartão de crédito
+    $recebimentoCartao = RecebimentoCartao::
+                            where('id_banco', '=', $id)->
+                            where('status', '=', 'Confirmado')->
+                            whereDate('dt_recebimento', '<=', $dt_limite)->
+                            sum('vlr_final');
+
+    // Calcular saldo atual
+    return $saldoInicial - $lancamentos->despesas + $lancamentos->receitas - $lancamentos->transferencias_saidas + $lancamentos->transferencias_entradas + ($pagamentosVendas ? $pagamentosVendas->saldo_atual : 0) + $recebimentoCartao;
+  }
   
+  public static function extrato($id, $dt_inicial, $dt_final)
+  {
+    $dt_inicial = is_null($dt_inicial) ? $dt_inicial : \Carbon\Carbon::now()->startOfMonth();
+    $dt_inicial = '2023-01-01';
+    $dt_final   = is_null($dt_final)   ? $dt_final   : \Carbon\Carbon::now();
+
+    $lancamentos = Lancamento::
+                        where('id_banco', '=', $id)->
+                        where('status', '=', 'Confirmado')->
+                        whereBetween('dt_recebimento', [$dt_inicial, $dt_final])->
+                        withTrashed()->
+                        get();
+                        
+    $recebimentoCartoes = RecebimentoCartao::
+                        where('id_banco', '=', $id)->
+                        where('status', '=', 'Confirmado')->
+                        whereBetween('dt_recebimento', [$dt_inicial, $dt_final])->
+                        withTrashed()->
+                        get();
+                        
+    $contasAReceberAlunos = AReceber::
+                        where('id_banco', '=', $id)->
+                        where('status', '=', 'Confirmado')->
+                        whereBetween('dt_recebimento', [$dt_inicial, $dt_final])->
+                        withTrashed()->
+                        get();
+
+    return $lancamentos->merge($recebimentoCartoes)->merge($contasAReceberAlunos);
+  }
+
 // RELACIONAMENTOS  ===========================================================================================
 //   public function FinLancamentos()
 //   {
@@ -65,59 +129,66 @@ class Banco extends Model
   // MUTATORS         ===========================================================================================
   public function getSaldoAtualAttribute()
   {
-    //Tabela Lançamentos
-    $despesas = Lancamento::
-                      where('id_banco', '=', $this->id)->
-                      where('status', '=', 'Confirmado')->
-                      whereDate('dt_recebimento', '<=', \Carbon\Carbon::today())->
-                      where('tipo', '=', 'D')->
-                      sum('vlr_final');
-    
-    //Tabela Lançamentos
-    $receitas = Lancamento::
-                      where('id_banco', '=', $this->id)->
-                      where('status', '=', 'Confirmado')->
-                      whereDate('dt_recebimento', '<=', \Carbon\Carbon::today())->
-                      where('tipo', '=', 'R')->
-                      sum('vlr_final');
+    $saldoInicial = $this->saldo_inicial;
 
-    //Tabela Lançamentos
-    $transferencias = Lancamento::
-                      where('id_banco', '=', $this->id)->
-                      where('status', '=', 'Confirmado')->
-                      whereDate('dt_recebimento', '<=', \Carbon\Carbon::today())->
-                      where('tipo', '=', 'T')->
-                      sum('vlr_final');
+    $lancamentos = Lancamento::
+                            selectRaw("
+                              SUM(CASE WHEN tipo = 'D' THEN vlr_final ELSE 0 END) AS despesas,
+                              SUM(CASE WHEN tipo = 'R' THEN vlr_final ELSE 0 END) AS receitas,
+                              SUM(CASE WHEN tipo = 'T' AND vlr_final < 0 THEN vlr_final ELSE 0 END) AS transferencias_saidas,
+                              SUM(CASE WHEN tipo = 'T' AND vlr_final >= 0 THEN vlr_final ELSE 0 END) AS transferencias_entradas
+                            ")->
+                            where('id_banco', '=', $this->id)->
+                            where('status', '=', 'Confirmado')->
+                            whereDate('dt_recebimento', '<=', \Carbon\Carbon::now())->
+                            first();
 
-    //Tabela Venda Pagamento (em dinheiro)
-    $pagamentos_vendas = Caixa::
-                      where('id_banco', '=', $this->id)->
-                      latest()->
-                      first();
-                      // get();
+    // // Obter lançamentos
+    // $despesas = Lancamento::
+    //                         where('id_banco', '=', $this->id)->
+    //                         where('status', '=', 'Confirmado')->
+    //                         whereDate('dt_recebimento', '<=', \Carbon\Carbon::now())->
+    //                         get('vlr_final');
 
-                      //Parcelas Cursos Pagas
-    $parcelas_cursos = AReceber::
-                      where('id_banco', '=', $this->id)->
-                      where('status', '=', 'Confirmado')->
-                      whereDate('dt_recebimento', '<=', \Carbon\Carbon::today())->
-                      sum('vlr_final');
+    // // Obter despesas
+    // $despesas = Lancamento::
+    //                         where('id_banco', '=', $this->id)->
+    //                         where('status', '=', 'Confirmado')->
+    //                         whereDate('dt_recebimento', '<=', \Carbon\Carbon::now())->
+    //                         where('tipo', '=', 'D')->
+    //                         sum('vlr_final');
 
-    //Recebimento de vendas em Cartão de Crédito
-    $recebimento_cartao = RecebimentoCartao::
-                      where('id_banco', '=', $this->id)->
-                      where('status', '=', 'Confirmado')->
-                      whereDate('dt_recebimento', '<=', \Carbon\Carbon::today())->
-                      sum('vlr_final');
+    // // Obter receitas
+    // $receitas = Lancamento::
+    //                         where('id_banco', '=', $this->id)->
+    //                         where('status', '=', 'Confirmado')->
+    //                         whereDate('dt_recebimento', '<=', \Carbon\Carbon::now())->
+    //                         where('tipo', '=', 'R')->
+    //                         sum('vlr_final');
 
-    return                                      $this->saldo_inicial
-                                                         - $despesas
-                                                         + $receitas
-                                                   + $transferencias
- + (!isset($pagamentos_vendas) ? 0 : $pagamentos_vendas->saldo_atual) 
-                                                  + $parcelas_cursos 
-                                               + $recebimento_cartao;
+    // // Obter transferências
+    // $transferencias = Lancamento::
+    //                         where('id_banco', '=', $this->id)->
+    //                         where('status', '=', 'Confirmado')->
+    //                         whereDate('dt_recebimento', '<=', \Carbon\Carbon::now())->
+    //                         where('tipo', '=', 'T')->
+    //                         sum('vlr_final');
+                            
+    // Obter pagamentos de vendas
+    $pagamentosVendas = Caixa::
+                            where('id_banco', '=', $this->id)->
+                            latest()->
+                            first();
+
+    // Obter recebimento em cartão de crédito
+    $recebimentoCartao = RecebimentoCartao::
+                            where('id_banco', '=', $this->id)->
+                            where('status', '=', 'Confirmado')->
+                            whereDate('dt_recebimento', '<=', \Carbon\Carbon::now())->
+                            sum('vlr_final');
+
+    // Calcular saldo atual
+    return $saldoInicial - $lancamentos->despesas + $lancamentos->receitas - $lancamentos->transferencias_saidas + $lancamentos->transferencias_entradas + ($pagamentosVendas ? $pagamentosVendas->saldo_atual : 0) + $recebimentoCartao;
+    // return $saldoInicial - $despesas + $receitas + $transferencias + ($pagamentosVendas ? $pagamentosVendas->saldo_atual : 0) + $recebimentoCartao;
   }
-
-
 }

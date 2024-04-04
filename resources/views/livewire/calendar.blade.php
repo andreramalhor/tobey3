@@ -332,7 +332,7 @@ var calendar = new FullCalendar.Calendar(calendarEl,
     
     function agendamentos_criar(informacoes)
     {
-        alert(12121);
+        alert(121231);
         // Livewire.dispatch('Atendimento.Agendamento', { postId: 2 })
         // Livewire.dispatch('criar', { informacoes : informacoes }).to('agendamento.criar');
     }

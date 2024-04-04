@@ -297,7 +297,7 @@
                       <!-- /.timeline-label -->
                       <!-- timeline item -->
                       <div>
-                        <i class="fas fa-camera bg-purple"></i>
+                        <i class="fas fa-camera bg-blue"></i>
 
                         <div class="timeline-item">
                           <span class="time"><i class="far fa-clock"></i> 2 days ago</span>
