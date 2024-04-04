@@ -1,9 +1,9 @@
 <div>
     <x-twelements.card>
         <x-slot name="cabecalho">
-            Lista de Tarefas
+            Lista de TarefXas
         </x-slot>
-        
+
         <div class="text-left dark:text-white">
             @forelse ($tarefas as $ciclo)
             <div wire:key="{{ $ciclo->id }}" class="m-3">
@@ -50,7 +50,7 @@
             @endforelse
           </div>
 
-          
+
         <x-slot name="rodape">
             <button type='button' class='inline-block rounded bg-primary px-4 pb-[5px] pt-[6px] text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong'>
                 Nova tarefa
