@@ -1,7 +1,7 @@
 <div class="row">
-    
+
     <x-slot name="title">
-        {{ __('Condomínios') }}
+        {{ __('Condosdsdmínios') }}
     </x-slot>
 
     <div class="col-md-12">

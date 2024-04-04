@@ -2,7 +2,7 @@
      <x-slot name="header">
 <<<<<<< HEAD
         {{ __('DashboZard') }}
-        ssd
+        ssdds
     </x-slot>
 
     aa
@@ -10,20 +10,20 @@
 =======
         {{ __('Dashboard') }}
     </x-slot>
-{{-- 
+{{--
 >>>>>>> 8428816add10968a479eabcad98f2b865b768ead
     <div class="row">
         <div class="col-4">
             <livewire:Ferramenta.Tarefa />
         </div>
-        
+
         <div class="col-8">
             @can('Saócios')
             <livewire:Financeiro.Lancamento.ChartAnual />
             @endcan
         </div>
     </div>
-    
+
     <div class="row">
         <div class="col-6">
             <livewire:Comercial.Lead.Graficos.ChartCadastro />
@@ -32,8 +32,8 @@
             <livewire:Comercial.Lead.Graficos.ChartAtendimento />
         </div>
     </div>
-    
-    
+
+
     <div class="row">
         <x-adminlte.card.card>
             <div class="overlay">
@@ -50,7 +50,7 @@
             </div>
         </x-adminlte.card.card>
     </div>
-    
+
     @php($mensagem=2734)
     <x-beerandcode texto="O texto do alerta" :mensagem="$mensagem" class="text-right" tipo="success">
         <strong>Esse é um slot</strong>
@@ -58,7 +58,7 @@
             Esse é o segundo slot
         </x-slot>
     </x-beerandcode>
-    
+
 
     <div class="row">
         <div class="card card-secondary card-outline card-outline-tabs p-0">
